@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/screens/home_screen.dart';
+import 'package:multi_vending_grocery_app/screens/landing_screen.dart';
 import 'package:multi_vending_grocery_app/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  late LatLng currentLocation;
+  LatLng currentLocation = const LatLng(37.421632,122.084664);
   late GoogleMapController mapController;
   bool isLoading = false;
   bool loggedIn = false;
@@ -86,7 +87,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 45),
+                    margin: const EdgeInsets.only(bottom: 45),
                     height: 50,
                     width: 50,
                     child: Image.asset('assets/marker.png'),
@@ -154,14 +155,11 @@ class _MapScreenState extends State<MapScreen> {
                                       _auth.latitude = locationData.latitude;
                                       _auth.longitude = locationData.longitude;
                                       _auth.address = locationData.selectedAddress.addressLine;
+                                      _auth.location = locationData.selectedAddress.featureName;
                                     });
                                     _auth.updateUser(
                                         id: user?.uid,
                                         number: user?.phoneNumber,
-                                        // latitude: locationData.latitude,
-                                        // longitude: locationData.longitude,
-                                        // address: locationData
-                                        //     .selectedAddress.addressLine
                                     ).then((value){
                                       if(value==true){
                                         Navigator.pushNamed(context, HomeScreen.id);

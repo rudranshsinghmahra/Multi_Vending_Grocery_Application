@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/screens/home_screen.dart';
+import 'package:multi_vending_grocery_app/screens/landing_screen.dart';
 import 'package:multi_vending_grocery_app/screens/login_screen.dart';
 import 'package:multi_vending_grocery_app/screens/map_screen.dart';
 import 'package:multi_vending_grocery_app/screens/register_screen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         MapScreen.id:(context)=>const MapScreen(),
         LoginScreen.id:(context)=>const LoginScreen(),
         RegistrationScreen.id:(context)=>const RegistrationScreen(),
+        LandingScreen.id:(context)=>const LandingScreen(),
 
       },
       debugShowCheckedModeBanner: false,

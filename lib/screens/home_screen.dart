@@ -45,9 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body: Center(
             child: Column(
-              children: [
-                const ImageSlider(),
-                Container(height: 300,child: TopPickedStore()),
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                ImageSlider(),
+                SizedBox(height: 200,child: TopPickedStore()),
               ],
             ),
           ),

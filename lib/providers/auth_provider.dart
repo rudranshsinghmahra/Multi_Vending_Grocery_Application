@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/constants.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/screens/home_screen.dart';
+import 'package:multi_vending_grocery_app/screens/landing_screen.dart';
 import 'package:multi_vending_grocery_app/services/services_user.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -16,6 +17,7 @@ class AuthProvider extends ChangeNotifier {
   double? latitude;
   double? longitude;
   String? address;
+  String? location;
 
   Future<void> verifyPhoneNumber({
     required BuildContext context,
@@ -102,7 +104,7 @@ class AuthProvider extends ChangeNotifier {
                         //User Data Already Exists
                         if (screen == "Login") {
                           Navigator.pushReplacementNamed(
-                              context, HomeScreen.id);
+                              context, LandingScreen.id);
                         } else {
                           //Need to update new Selected Address
                           updateUser(id: user.uid, number: user.phoneNumber);
@@ -113,7 +115,7 @@ class AuthProvider extends ChangeNotifier {
                         //User Data Does not Exists
                         //Will Create new Data in Database
                         _createUser(id: user.uid, number: user.phoneNumber);
-                        Navigator.pushReplacementNamed(context, HomeScreen.id);
+                        Navigator.pushReplacementNamed(context, LandingScreen.id);
                       }
                     });
                     print(screen);
@@ -147,6 +149,7 @@ class AuthProvider extends ChangeNotifier {
       'latitude': latitude,
       'longitude': longitude,
       'address': address,
+      'location': location,
     });
     isLoading = false;
     notifyListeners();
@@ -163,6 +166,7 @@ class AuthProvider extends ChangeNotifier {
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
+        'location': location,
       });
       isLoading = false;
       notifyListeners();

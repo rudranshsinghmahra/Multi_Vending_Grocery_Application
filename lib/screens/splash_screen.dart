@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_vending_grocery_app/screens/landing_screen.dart';
 import 'package:multi_vending_grocery_app/screens/welcome_screen.dart';
 import 'home_screen.dart';
 
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (user == null) {
           Navigator.pushReplacementNamed(context, WelcomeScreen.id);
         } else {
-          Navigator.pushReplacementNamed(context, HomeScreen.id);
+          Navigator.pushReplacementNamed(context, LandingScreen.id);
         }
       });
     });
