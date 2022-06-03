@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserServices {
   String collection = 'users';
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   //Create User Data
 
   Future<void> createUser(Map<String, dynamic> map) async {

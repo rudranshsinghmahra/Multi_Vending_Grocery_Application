@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
-import 'package:multi_vending_grocery_app/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -93,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 auth.screen = "MapScreen";
                                 auth.latitude = locationData.latitude;
                                 auth.longitude = locationData.longitude;
-                                auth.address = locationData.selectedAddress.addressLine;
+                                auth.address = locationData.selectedAddress?.addressLine;
                               });
                               String number =
                                   '+91${_phoneNumberController.text}';
@@ -101,10 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .verifyPhoneNumber(
                                 context: context,
                                 number: number,
-                                // latitude: locationData.latitude,
-                                // longitude: locationData.longitude,
-                                // address:
-                                //     locationData.selectedAddress.addressLine,
                               )
                                   .then((value) {
                                     _phoneNumberController.clear();
@@ -112,8 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   auth.isLoading = false;
                                 });
                               });
-                              // Navigator.pushReplacementNamed(
-                              //     context, HomeScreen.id);
                             },
                             child: auth.isLoading
                                 ? const Center(

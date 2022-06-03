@@ -4,6 +4,7 @@ import 'package:multi_vending_grocery_app/constants.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/screens/home_screen.dart';
 import 'package:multi_vending_grocery_app/screens/landing_screen.dart';
+import 'package:multi_vending_grocery_app/screens/main_screen.dart';
 import 'package:multi_vending_grocery_app/services/services_user.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -103,13 +104,18 @@ class AuthProvider extends ChangeNotifier {
                       if (value.exists) {
                         //User Data Already Exists
                         if (screen == "Login") {
+                          //need to check user data already exists in database or not.
+                          //if its 'login' no new data so no need to update
+                          if(value['address']!=null){
+                            Navigator.pushReplacementNamed(context, MainScreen.id);
+                          }
                           Navigator.pushReplacementNamed(
                               context, LandingScreen.id);
                         } else {
                           //Need to update new Selected Address
                           updateUser(id: user.uid, number: user.phoneNumber);
                           Navigator.pushReplacementNamed(
-                              context, HomeScreen.id);
+                              context, MainScreen.id);
                         }
                       } else {
                         //User Data Does not Exists

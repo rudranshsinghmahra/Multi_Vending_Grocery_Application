@@ -178,42 +178,49 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     SizedBox(
                       height: size.height / 45,
                     ),
-                    TextButton(
-                      style: ButtonStyle(
-                          elevation: MaterialStateProperty.all(1),
-                          backgroundColor: MaterialStateProperty.all(
-                            const Color.fromRGBO(178, 182, 231, 1.0),
-                          )),
-                      onPressed: () async {
-                        setState(() {
-                          locationData.isLoading = true;
-                        });
-                        await locationData.getMyCurrentPosition();
-                        if (locationData.permissionAllowed) {
-                          Navigator.pushReplacementNamed(context, MapScreen.id);
-                          setState(() {
-                            locationData.isLoading = false;
-                          });
-                        } else {
-                          setState(() {
-                            locationData.isLoading = false;
-                          });
-                        }
-                      },
-                      child: locationData.isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
-                              ),
-                            )
-                          : const Text(
-                              "Set Location",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("New User?",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                        SizedBox(height: 50,child: Image.asset('assets/forward_arrow.gif')),
+                        TextButton(
+                          style: ButtonStyle(
+                              elevation: MaterialStateProperty.all(1),
+                              backgroundColor: MaterialStateProperty.all(
+                                const Color.fromRGBO(178, 182, 231, 1.0),
+                              )),
+                          onPressed: () async {
+                            setState(() {
+                              locationData.isLoading = true;
+                            });
+                            await locationData.getMyCurrentPosition();
+                            if (locationData.permissionAllowed) {
+                              Navigator.pushReplacementNamed(context, MapScreen.id);
+                              setState(() {
+                                locationData.isLoading = false;
+                              });
+                            } else {
+                              setState(() {
+                                locationData.isLoading = false;
+                              });
+                            }
+                          },
+                          child: locationData.isLoading
+                              ? const Center(
+                            child: CircularProgressIndicator(
+                              valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
                             ),
+                          )
+                              : const Text(
+                            "Set Location",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: size.height / 45,

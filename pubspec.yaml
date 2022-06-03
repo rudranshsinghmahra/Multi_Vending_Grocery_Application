@@ -38,6 +38,7 @@ dependencies:
   fluttertoast:
   firebase_auth:
   firebase_core:
+  url_launcher: ^6.1.0
   cloud_firestore:
   provider:
   geolocator:
@@ -47,6 +48,12 @@ dependencies:
   shared_preferences:
   carousel_slider:
   get:
+  paginate_firestore:
+  persistent_bottom_nav_bar:
+  map_launcher: ^2.2.2
+  flutter_phone_direct_caller: ^2.1.1
+  expandable_text:
+  flutter_easyloading:
 
 dev_dependencies:
   flutter_test:

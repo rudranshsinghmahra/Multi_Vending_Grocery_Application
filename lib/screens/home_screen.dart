@@ -1,8 +1,7 @@
-import 'package:dots_indicator/dots_indicator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:multi_vending_grocery_app/screens/top_picked_store.dart';
-import 'package:multi_vending_grocery_app/screens/welcome_screen.dart';
+import 'package:multi_vending_grocery_app/widgets/near_by_store.dart';
+import 'package:multi_vending_grocery_app/widgets/top_picked_store.dart';
 import 'package:multi_vending_grocery_app/widgets/images_slider.dart';
 import 'package:multi_vending_grocery_app/widgets/my_appbar.dart';
 
@@ -34,24 +33,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Colors.deepPurple,
       child: SafeArea(
         child: Scaffold(
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(130),
-            child: MyAppBar(),
-          ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+          body: NestedScrollView(
+            body: ListView(
               children: const [
                 ImageSlider(),
-                SizedBox(height: 200,child: TopPickedStore()),
+                SizedBox(
+                  height: 220,
+                  child: TopPickedStore(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 3),
+                  child: NearByStore(),
+                ),
               ],
             ),
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                const PreferredSize(
+                  preferredSize: Size.fromHeight(130),
+                  child: MyAppBar(),
+                ),
+              ];
+            },
           ),
         ),
       ),

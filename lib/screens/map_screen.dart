@@ -4,9 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
-import 'package:multi_vending_grocery_app/screens/home_screen.dart';
-import 'package:multi_vending_grocery_app/screens/landing_screen.dart';
 import 'package:multi_vending_grocery_app/screens/login_screen.dart';
+import 'package:multi_vending_grocery_app/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 
 class MapScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  LatLng currentLocation = const LatLng(37.421632,122.084664);
+  LatLng currentLocation = const LatLng(28.529918076937708, 77.25392945998702);
   late GoogleMapController mapController;
   bool isLoading = false;
   bool loggedIn = false;
@@ -120,16 +119,16 @@ class _MapScreenState extends State<MapScreen> {
                             icon: const Icon(Icons.location_searching),
                             label: Text(
                               isLoading
-                                  ? "Locating..."
-                                  : "${locationData.selectedAddress.featureName}",
+                                  ? "Locating..." : locationData.selectedAddress == null ? "Locating..."
+                                  : "${locationData.selectedAddress?.featureName}",
                               style: const TextStyle(fontSize: 20),
                               textAlign: TextAlign.start,
                             ),
                           ),
                           Text(
                             isLoading
-                                ? ""
-                                : "${locationData.selectedAddress.addressLine}",
+                                ? "" : locationData.selectedAddress == null ? ""
+                                : "${locationData.selectedAddress?.addressLine}",
                             style: const TextStyle(fontSize: 20),
                             textAlign: TextAlign.start,
                           ),
@@ -148,21 +147,21 @@ class _MapScreenState extends State<MapScreen> {
                                 onPressed: () {
                                   locationData.savePreferences();
                                   if (loggedIn == false) {
-                                    Navigator.pushNamed(
+                                    Navigator.pushReplacementNamed(
                                         context, LoginScreen.id);
                                   } else {
                                     setState(() {
                                       _auth.latitude = locationData.latitude;
                                       _auth.longitude = locationData.longitude;
-                                      _auth.address = locationData.selectedAddress.addressLine;
-                                      _auth.location = locationData.selectedAddress.featureName;
+                                      _auth.address = locationData.selectedAddress?.addressLine;
+                                      _auth.location = locationData.selectedAddress?.featureName;
                                     });
                                     _auth.updateUser(
                                         id: user?.uid,
                                         number: user?.phoneNumber,
                                     ).then((value){
                                       if(value==true){
-                                        Navigator.pushNamed(context, HomeScreen.id);
+                                        Navigator.pushReplacementNamed(context, MainScreen.id);
                                       }
                                     });
                                   }

@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "147156304764-dr5acmbsl9bl6kvghdd1an9lpriq6e1c.apps.googleusercontent.com",
+          "client_id": "147156304764-hp44l5mat6fk2vodqm6r1bag7up7kgtu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.rudransh.multi_vending_grocery_app",
-            "certificate_hash": "3cb73cdc60845005afc5571af3987854e42cbbe4"
+            "certificate_hash": "2d1098edaea33407865882361f83fe484148521e"
           }
         },
         {

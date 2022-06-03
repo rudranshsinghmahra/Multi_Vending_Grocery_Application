@@ -5,3 +5,11 @@ class BannerDataModel{
     image = map['images'];
   }
 }
+
+class VendorBannerDataModel{
+  late String image;
+  VendorBannerDataModel({required this.image});
+  VendorBannerDataModel.fromJson(Map<String,dynamic> map){
+    image = map['imageUrl'];
+  }
+}

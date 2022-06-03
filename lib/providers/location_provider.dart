@@ -9,7 +9,7 @@ class LocationProvider extends ChangeNotifier {
   double latitude = 0.0;
   double longitude = 0.0;
   bool permissionAllowed = true;
-  var selectedAddress;
+  Address? selectedAddress;
   bool isLoading = false;
 
   Future<void> getMyCurrentPosition() async {
@@ -33,7 +33,7 @@ class LocationProvider extends ChangeNotifier {
         final coordinates = Coordinates(latitude, longitude);
         final addresses =
             await Geocoder.local.findAddressesFromCoordinates(coordinates);
-        print("Is My Address Rudransh Singh is ${addresses}");
+        print("Is My Address Rudransh Singh is $addresses");
         selectedAddress = addresses.first;
       } else {
         print("Permissions Not Allowed");
@@ -53,14 +53,14 @@ class LocationProvider extends ChangeNotifier {
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     selectedAddress = addresses.first;
     notifyListeners();
-    print("${selectedAddress.featureName} : ${selectedAddress.addressLine}");
+    print("${selectedAddress?.featureName} : ${selectedAddress?.addressLine}");
   }
 
   Future<void> savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble('latitude', latitude);
     prefs.setDouble('longitude', longitude);
-    prefs.setString('address', selectedAddress.addressLine);
-    prefs.setString('location', selectedAddress.featureName);
+    prefs.setString('address', selectedAddress!.addressLine);
+    prefs.setString('location', selectedAddress!.featureName);
   }
 }
