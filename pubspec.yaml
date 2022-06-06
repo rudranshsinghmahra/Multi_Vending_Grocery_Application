@@ -54,6 +54,7 @@ dependencies:
   flutter_phone_direct_caller: ^2.1.1
   expandable_text:
   flutter_easyloading:
+  toggle_bar:
 
 dev_dependencies:
   flutter_test:

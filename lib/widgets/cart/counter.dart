@@ -8,7 +8,7 @@ import 'package:multi_vending_grocery_app/services/cart_services.dart';
 class CounterForCard extends StatefulWidget {
   const CounterForCard({Key? key, required this.documentSnapshot})
       : super(key: key);
-  final DocumentSnapshot documentSnapshot;
+  final DocumentSnapshot? documentSnapshot;
   @override
   State<CounterForCard> createState() => _CounterForCardState();
 }
@@ -26,12 +26,12 @@ class _CounterForCardState extends State<CounterForCard> {
         .collection('cart')
         .doc(user?.uid)
         .collection('products')
-        .where('productId', isEqualTo: widget.documentSnapshot['productId'])
+        .where('productId', isEqualTo: widget.documentSnapshot?['productId'])
         .get()
         .then((QuerySnapshot querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
         querySnapshot.docs.forEach((doc) {
-          if (doc['productId'] == widget.documentSnapshot['productId']) {
+          if (doc['productId'] == widget.documentSnapshot?['productId']) {
             setState(() {
               _qty = doc['qty'];
               docId = doc.id;
@@ -55,7 +55,6 @@ class _CounterForCardState extends State<CounterForCard> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.documentSnapshot['productId']);
 
     return _exists
         ? StreamBuilder(
@@ -82,7 +81,7 @@ class _CounterForCardState extends State<CounterForCard> {
                         setState(() {
                           _qty--;
                         });
-                        var total = _qty * widget.documentSnapshot['price'];
+                        var total = _qty * widget.documentSnapshot?['price'];
                         cartServices
                             .updateCartQty(docId, _qty, total)
                             .then((value) {
@@ -133,7 +132,7 @@ class _CounterForCardState extends State<CounterForCard> {
                         _updating = true;
                         _qty++;
                       });
-                      var total = _qty * widget.documentSnapshot['price'];
+                      var total = _qty * widget.documentSnapshot?['price'];
                       cartServices
                           .updateCartQty(docId, _qty, total)
                           .then((value) {
@@ -176,7 +175,7 @@ class _CounterForCardState extends State<CounterForCard> {
                       cartServices.checkSeller().then(
                         (shopName) {
                           if (shopName ==
-                              widget.documentSnapshot['seller']['sellerUid']) {
+                              widget.documentSnapshot?['seller']['sellerUid']) {
                             setState(() {
                               _exists = true;
                             });
@@ -199,7 +198,7 @@ class _CounterForCardState extends State<CounterForCard> {
                             return;
                           }
                           if (shopName !=
-                              widget.documentSnapshot['seller']['shopName']) {
+                              widget.documentSnapshot?['seller']['shopName']) {
                             EasyLoading.dismiss();
                             showDialog(shopName);
                           }
@@ -224,7 +223,7 @@ class _CounterForCardState extends State<CounterForCard> {
         return CupertinoAlertDialog(
           title: Text("Replace Cart Item?"),
           content: Text(
-              "Your cart contains item from $shopName. Do you want to discard the selection and add items from ${widget.documentSnapshot['seller']['shopName']}"),
+              "Your cart contains item from $shopName. Do you want to discard the selection and add items from ${widget.documentSnapshot?['seller']['shopName']}"),
           actions: [
             ElevatedButton(
               onPressed: () {

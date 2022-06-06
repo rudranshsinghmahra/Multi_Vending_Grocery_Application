@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:multi_vending_grocery_app/providers/cart_provider.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,7 @@ class _NearByStoreState extends State<NearByStore> {
   @override
   Widget build(BuildContext context) {
     final storeData = Provider.of<StoreProvider>(context);
+    final _cart = Provider.of<CartProvider>(context);
     storeData.getUserLocation(context);
 
     String getDistance(location) {
@@ -53,6 +56,12 @@ class _NearByStoreState extends State<NearByStore> {
           }
           actualShopDistance
               .sort(); // this will sort with nearest distance. If nearest distance
+
+          SchedulerBinding.instance?.addPostFrameCallback((_) =>
+            setState(() {
+              _cart.getDistance(actualShopDistance[0]);
+            })
+          );
           if (actualShopDistance[0] > 10) {
             return Container();
           }

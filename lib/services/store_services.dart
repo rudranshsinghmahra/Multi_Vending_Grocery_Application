@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StoreServices {
 
+  CollectionReference vendors = FirebaseFirestore.instance.collection('vendors');
+
   getTopPickedStore() {
-    return FirebaseFirestore.instance
-        .collection('vendors')
+    return vendors
         .where('accVerified', isEqualTo: true)
         .where('isTopPicked', isEqualTo: true)
         .where('shopOpen', isEqualTo: true)
@@ -13,8 +14,7 @@ class StoreServices {
   }
 
   getNearbyStores() {
-    return FirebaseFirestore.instance
-        .collection('vendors')
+    return vendors
         .where('accVerified', isEqualTo: true)
         .where('shopOpen', isEqualTo: true)
         .orderBy('shopName')
@@ -22,10 +22,15 @@ class StoreServices {
   }
 
   getNearbyStorePagination() {
-    return FirebaseFirestore.instance
-        .collection('vendors')
+    return vendors
         .where('accVerified', isEqualTo: true)
         .where('shopOpen', isEqualTo: true)
         .orderBy('shopName');
   }
+
+  Future getShopDetails(sellerUid) async{
+    DocumentSnapshot snapshot = await vendors.doc(sellerUid).get();
+    return snapshot;
+  }
+
 }

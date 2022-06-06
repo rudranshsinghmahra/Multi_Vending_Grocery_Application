@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/providers/cart_provider.dart';
+import 'package:multi_vending_grocery_app/screens/cart_screen.dart';
 import 'package:multi_vending_grocery_app/services/cart_services.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
 class CartNotification extends StatefulWidget {
@@ -25,36 +27,68 @@ class _CartNotificationState extends State<CartNotification> {
       });
     });
 
-    return Container(
-      height: 45,
-      width: MediaQuery.of(context).size.width,
-      color: Colors.green,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${_cartProvider.cartQty} | Items",
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  if(documentSnapshot!.exists)
-                  Text(
-                    "From ${documentSnapshot?['shopName']}",
-                    style: TextStyle(color: Colors.white, fontSize: 10),
-                  )
-                ],
+    return Visibility(
+      visible: _cartProvider.distance <= 10
+          ? _cartProvider.cartQty > 0
+              ? true
+              : false
+          : false,
+      child: Container(
+        height: 45,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+            color: Colors.green,
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "${_cartProvider.cartQty} ${_cartProvider.cartQty > 1 ? "Items" : "Item"}",
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.white),
+                        ),
+                        const Text(
+                          "  |  ",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text(
+                          _cartProvider.subTotal.toStringAsFixed(0),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    if (documentSnapshot!.exists)
+                      Text(
+                        "From ${documentSnapshot?['shopName']}",
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      )
+                  ],
+                ),
               ),
-            ),
-            InkWell(
-              onTap: () {},
-              child: Container(
+              InkWell(
+                onTap: () {
+                  pushNewScreenWithRouteSettings(
+                    context,
+                    settings: const RouteSettings(name: CartScreen.id),
+                    screen: CartScreen(
+                      documentSnapshot: documentSnapshot,
+                    ),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
                 child: Row(
                   children: const [
                     Text(
@@ -72,8 +106,8 @@ class _CartNotificationState extends State<CartNotification> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

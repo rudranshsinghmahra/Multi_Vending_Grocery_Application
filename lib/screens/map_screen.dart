@@ -101,7 +101,7 @@ class _MapScreenState extends State<MapScreen> {
                 Positioned(
                   bottom: 0.0,
                   child: Container(
-                    height: size.height / 3.8,
+                    height: size.height / 2.8,
                     width: MediaQuery.of(context).size.width,
                     color: Colors.white,
                     child: Padding(

@@ -47,18 +47,19 @@ class _MyAppBarState extends State<MyAppBar> {
       title: TextButton(
         style: TextButton.styleFrom(padding: EdgeInsets.zero),
         onPressed: () {
-          locationData.getMyCurrentPosition();
-          if (locationData.permissionAllowed == true) {
-            pushNewScreenWithRouteSettings(
-              context,
-              settings: const RouteSettings(name: MapScreen.id),
-              screen: const MapScreen(),
-              withNavBar: false, // have to make this false if navigating outside
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
-          } else {
-            showAlert("Location Permission not Allowed");
-          }
+          locationData.getMyCurrentPosition().then((value){
+            if (value!=null) {
+              pushNewScreenWithRouteSettings(
+                context,
+                settings: const RouteSettings(name: MapScreen.id),
+                screen: const MapScreen(),
+                withNavBar: false, // have to make this false if navigating outside
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            } else {
+              showAlert("Location Permission not Allowed");
+            }
+          });
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,

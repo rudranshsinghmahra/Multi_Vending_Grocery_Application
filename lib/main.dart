@@ -6,6 +6,7 @@ import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/cart_provider.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/providers/store_provider.dart';
+import 'package:multi_vending_grocery_app/screens/cart_screen.dart';
 import 'package:multi_vending_grocery_app/screens/home_screen.dart';
 import 'package:multi_vending_grocery_app/screens/landing_screen.dart';
 import 'package:multi_vending_grocery_app/screens/login_screen.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         VendorHomeScreen.id: (context) => const VendorHomeScreen(),
         ProductListScreen.id: (context) => const ProductListScreen(),
         ProductDetailsScreen.id: (context) => const ProductDetailsScreen(),
+        CartScreen.id: (context) => const CartScreen(),
       },
       builder: EasyLoading.init(),
       debugShowCheckedModeBanner: false,

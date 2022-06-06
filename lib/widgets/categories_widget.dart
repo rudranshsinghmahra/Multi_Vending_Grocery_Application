@@ -113,7 +113,7 @@ class _VendorCategoriesState extends State<VendorCategories> {
                                   settings: const RouteSettings(
                                       name: ProductListScreen.id),
                                   screen: const ProductListScreen(),
-                                  withNavBar: true,
+                                  withNavBar: false,
                                   pageTransitionAnimation:
                                       PageTransitionAnimation.cupertino,
                                 );

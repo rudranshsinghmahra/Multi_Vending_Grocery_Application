@@ -12,7 +12,8 @@ class LocationProvider extends ChangeNotifier {
   Address? selectedAddress;
   bool isLoading = false;
 
-  Future<void> getMyCurrentPosition() async {
+  Future<Position?> getMyCurrentPosition() async {
+    Position? position;
     LocationPermission permission;
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
@@ -22,7 +23,7 @@ class LocationProvider extends ChangeNotifier {
       permissionAllowed = false;
       showAlert("Location Permission is Denied Forever. Enable in Settings");
     } else {
-      Position position = await Geolocator.getCurrentPosition(
+      position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       if (position != null) {
         permissionAllowed = true;
@@ -39,6 +40,7 @@ class LocationProvider extends ChangeNotifier {
         print("Permissions Not Allowed");
       }
     }
+    return position;
   }
 
   void onCameraMove(CameraPosition cameraPosition) async {
