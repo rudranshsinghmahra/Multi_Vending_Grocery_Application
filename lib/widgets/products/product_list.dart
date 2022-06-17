@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/providers/store_provider.dart';
 import 'package:multi_vending_grocery_app/services/product_services.dart';
 import 'package:multi_vending_grocery_app/widgets/products/product_card_widget.dart';
-import 'package:multi_vending_grocery_app/widgets/products/product_filter_widget.dart';
 import 'package:provider/provider.dart';
 
 class ProductListWidget extends StatelessWidget {

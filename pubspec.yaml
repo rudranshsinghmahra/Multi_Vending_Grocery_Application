@@ -55,6 +55,7 @@ dependencies:
   expandable_text:
   flutter_easyloading:
   toggle_bar:
+  dotted_border:
 
 dev_dependencies:
   flutter_test:

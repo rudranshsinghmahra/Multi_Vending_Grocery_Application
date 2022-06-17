@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/constants.dart';
@@ -14,6 +15,7 @@ class AuthProvider extends ChangeNotifier {
   bool isLoading = false;
   final UserServices _userServices = UserServices();
   LocationProvider locationData = LocationProvider();
+  DocumentSnapshot? documentSnapshot;
   late String screen;
   double? latitude;
   double? longitude;
@@ -87,6 +89,12 @@ class AuthProvider extends ChangeNotifier {
           ),
           actions: [
             TextButton(
+                onPressed: () {
+                  verifyPhoneNumber(context: context, number: number);
+                  showAlert("OTP Send Successfully");
+                },
+                child: const Text("Resend OTP")),
+            TextButton(
               onPressed: () async {
                 try {
                   PhoneAuthCredential phoneAuthCredentials =
@@ -106,8 +114,9 @@ class AuthProvider extends ChangeNotifier {
                         if (screen == "Login") {
                           //need to check user data already exists in database or not.
                           //if its 'login' no new data so no need to update
-                          if(value['address']!=null){
-                            Navigator.pushReplacementNamed(context, MainScreen.id);
+                          if (value['address'] != null) {
+                            Navigator.pushReplacementNamed(
+                                context, MainScreen.id);
                           }
                           Navigator.pushReplacementNamed(
                               context, LandingScreen.id);
@@ -121,7 +130,8 @@ class AuthProvider extends ChangeNotifier {
                         //User Data Does not Exists
                         //Will Create new Data in Database
                         _createUser(id: user.uid, number: user.phoneNumber);
-                        Navigator.pushReplacementNamed(context, LandingScreen.id);
+                        Navigator.pushReplacementNamed(
+                            context, LandingScreen.id);
                       }
                     });
                     print(screen);
@@ -135,10 +145,6 @@ class AuthProvider extends ChangeNotifier {
               },
               child: const Text("Verify OTP"),
             ),
-            TextButton(onPressed: (){
-              verifyPhoneNumber(context: context,number: number);
-              showAlert("OTP Send Successfully");
-            }, child: const Text("Resend OTP"))
           ],
         );
       },
@@ -181,5 +187,16 @@ class AuthProvider extends ChangeNotifier {
       print("Error $e");
       return false;
     }
+  }
+
+  Future getUserDetails() async {
+    var result = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_auth.currentUser?.uid)
+        .get();
+    documentSnapshot = result;
+    notifyListeners();
+
+    return result;
   }
 }

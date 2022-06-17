@@ -44,7 +44,7 @@ class _AddToCardWidgetState extends State<AddToCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    //If Product exist in car , we need to get qty details
+    //If Product exist in cart , we need to get qty details
     FirebaseFirestore.instance
         .collection('cart')
         .doc(user?.uid)

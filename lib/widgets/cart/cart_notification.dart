@@ -37,9 +37,12 @@ class _CartNotificationState extends State<CartNotification> {
         height: 45,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+          color: Colors.green,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(15),
+            topLeft: Radius.circular(15),
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Row(
@@ -68,7 +71,7 @@ class _CartNotificationState extends State<CartNotification> {
                         ),
                       ],
                     ),
-                    if (documentSnapshot!.exists)
+                    if (documentSnapshot != null)
                       Text(
                         "From ${documentSnapshot?['shopName']}",
                         style:

@@ -81,20 +81,22 @@ class _CounterWidgetState extends State<CounterWidget> {
                         ),
                       ),
                       Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, right: 20, top: 8, bottom: 8),
-                          child: _updating
-                              ? Container(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Theme.of(context).primaryColor),
-                                  ))
-                              : Text(
-                                  _qty.toString(),
-                                  style: const TextStyle(color: Colors.red),
-                                )),
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, top: 8, bottom: 8),
+                        child: _updating
+                            ? SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Theme.of(context).primaryColor),
+                                ),
+                              )
+                            : Text(
+                                _qty.toString(),
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                      ),
                       InkWell(
                         onTap: () {
                           setState(() {

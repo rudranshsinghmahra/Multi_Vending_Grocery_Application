@@ -57,11 +57,9 @@ class _NearByStoreState extends State<NearByStore> {
           actualShopDistance
               .sort(); // this will sort with nearest distance. If nearest distance
 
-          SchedulerBinding.instance?.addPostFrameCallback((_) =>
-            setState(() {
-              _cart.getDistance(actualShopDistance[0]);
-            })
-          );
+          SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {
+                _cart.getDistance(actualShopDistance[0]);
+              }));
           if (actualShopDistance[0] > 10) {
             return Container();
           }

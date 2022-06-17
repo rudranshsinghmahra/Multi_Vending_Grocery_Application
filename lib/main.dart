@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/cart_provider.dart';
+import 'package:multi_vending_grocery_app/providers/coupons_provider.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/providers/store_provider.dart';
 import 'package:multi_vending_grocery_app/screens/cart_screen.dart';
@@ -14,7 +15,7 @@ import 'package:multi_vending_grocery_app/screens/main_screen.dart';
 import 'package:multi_vending_grocery_app/screens/map_screen.dart';
 import 'package:multi_vending_grocery_app/screens/product_details_screen.dart';
 import 'package:multi_vending_grocery_app/screens/product_list_screen.dart';
-import 'package:multi_vending_grocery_app/widgets/products/product_list.dart';
+import 'package:multi_vending_grocery_app/screens/profile_update_screen.dart';
 import 'package:multi_vending_grocery_app/screens/profile_screen.dart';
 import 'package:multi_vending_grocery_app/screens/register_screen.dart';
 import 'package:multi_vending_grocery_app/screens/splash_screen.dart';
@@ -39,6 +40,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CouponProvider(),
         ),
       ],
       child: const MyApp(),
@@ -67,6 +71,7 @@ class MyApp extends StatelessWidget {
         ProductListScreen.id: (context) => const ProductListScreen(),
         ProductDetailsScreen.id: (context) => const ProductDetailsScreen(),
         CartScreen.id: (context) => const CartScreen(),
+        UpdateProfile.id: (context) => const UpdateProfile(),
       },
       builder: EasyLoading.init(),
       debugShowCheckedModeBanner: false,

@@ -21,6 +21,12 @@ class _CounterForCardState extends State<CounterForCard> {
   bool _updating = false;
   String? docId;
 
+  @override
+  void initState() {
+    getCartData();
+    super.initState();
+  }
+
   getCartData() {
     FirebaseFirestore.instance
         .collection('cart')
@@ -48,38 +54,83 @@ class _CounterForCardState extends State<CounterForCard> {
   }
 
   @override
-  void initState() {
-    getCartData();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-
     return _exists
         ? StreamBuilder(
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            return Container(
-              height: 28,
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        _updating = true;
-                      });
-                      if (_qty == 1) {
-                        cartServices.removeFromCart(docId).then((value) {
-                          setState(() {
-                            _updating = false;
-                            _exists = false;
-                          });
-                          cartServices.checkData();
-                        });
-                      }
-                      if (_qty > 1) {
+              return SizedBox(
+                height: 28,
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
                         setState(() {
-                          _qty--;
+                          _updating = true;
+                        });
+                        if (_qty == 1) {
+                          cartServices.removeFromCart(docId).then((value) {
+                            setState(() {
+                              _updating = false;
+                              _exists = false;
+                            });
+                            cartServices.checkData();
+                          });
+                        }
+                        if (_qty > 1) {
+                          setState(() {
+                            _qty--;
+                          });
+                          var total = _qty * widget.documentSnapshot?['price'];
+                          cartServices
+                              .updateCartQty(docId, _qty, total)
+                              .then((value) {
+                            setState(() {
+                              _updating = false;
+                            });
+                          });
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.pink,
+                            ),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 3, right: 3),
+                          child: Icon(
+                            _qty == 1 ? Icons.delete_outlined : Icons.remove,
+                            color: Colors.pink,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: double.infinity,
+                      width: 30,
+                      color: Colors.pink,
+                      child: Center(
+                        child: FittedBox(
+                          child: _updating
+                              ? Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                )
+                              : Text(
+                                  _qty.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          _updating = true;
+                          _qty++;
                         });
                         var total = _qty * widget.documentSnapshot?['price'];
                         cartServices
@@ -89,77 +140,27 @@ class _CounterForCardState extends State<CounterForCard> {
                             _updating = false;
                           });
                         });
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.pink,
+                            ),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 3, right: 3),
+                          child: Icon(
+                            Icons.add,
                             color: Colors.pink,
                           ),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 3, right: 3),
-                        child: Icon(
-                          _qty == 1 ? Icons.delete_outlined : Icons.remove,
-                          color: Colors.pink,
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    height: double.infinity,
-                    width: 30,
-                    color: Colors.pink,
-                    child: Center(
-                      child: FittedBox(
-                        child: _updating
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Theme.of(context).primaryColor),
-                                ),
-                              )
-                            : Text(
-                                _qty.toString(),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        _updating = true;
-                        _qty++;
-                      });
-                      var total = _qty * widget.documentSnapshot?['price'];
-                      cartServices
-                          .updateCartQty(docId, _qty, total)
-                          .then((value) {
-                        setState(() {
-                          _updating = false;
-                        });
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.pink,
-                          ),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 3, right: 3),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.pink,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          })
+                  ],
+                ),
+              );
+            },
+          )
         : StreamBuilder(
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               return Container(
