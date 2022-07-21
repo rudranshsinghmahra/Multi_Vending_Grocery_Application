@@ -1,20 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:multi_vending_grocery_app/screens/product_details_screen.dart';
-import 'package:multi_vending_grocery_app/widgets/cart/counter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key, required this.documentSnapshot})
-      : super(key: key);
+import '../models/product_model.dart';
+import '../screens/product_details_screen.dart';
+import 'cart/counter.dart';
+
+class SearchCard extends StatelessWidget {
+  const SearchCard({
+    Key? key,
+    required this.offer,
+    required this.product,
+    required this.documentSnapshot,
+  }) : super(key: key);
+
+  final String? offer;
+  final Product product;
   final DocumentSnapshot documentSnapshot;
+
   @override
   Widget build(BuildContext context) {
-    String offer =
-        (((documentSnapshot['comparedPrice']) - (documentSnapshot['price'])) /
-                documentSnapshot['comparedPrice'] *
-                100)
-            .toStringAsFixed(0);
     return Container(
       height: 160,
       width: MediaQuery.of(context).size.width,
@@ -36,7 +41,7 @@ class ProductCard extends StatelessWidget {
                         settings:
                             const RouteSettings(name: ProductDetailsScreen.id),
                         screen: ProductDetailsScreen(
-                            documentSnapshot: documentSnapshot),
+                            documentSnapshot: product.documentSnapshot),
                         withNavBar: false,
                         pageTransitionAnimation:
                             PageTransitionAnimation.cupertino,
@@ -48,13 +53,14 @@ class ProductCard extends StatelessWidget {
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Hero(
-                              tag: "product${documentSnapshot['productName']}",
+                              tag:
+                                  "product${product.documentSnapshot['productName']}",
                               child: Image.network(
-                                  documentSnapshot['productImage']))),
+                                  product.documentSnapshot['productImage']))),
                     ),
                   ),
                 ),
-                if (documentSnapshot['comparedPrice'] > 0)
+                if (product.documentSnapshot['comparedPrice'] > 0)
                   Container(
                     decoration: const BoxDecoration(
                       color: Color(0xFF9D78E2),
@@ -83,14 +89,14 @@ class ProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        documentSnapshot['brand'],
+                        product.documentSnapshot['brand'],
                         style: const TextStyle(fontSize: 10),
                       ),
                       const SizedBox(
                         height: 6,
                       ),
                       Text(
-                        documentSnapshot['productName'],
+                        product.documentSnapshot['productName'],
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
@@ -104,7 +110,7 @@ class ProductCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                             color: Colors.grey[300]),
                         child: Text(
-                          documentSnapshot['weight'],
+                          product.documentSnapshot['weight'],
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
@@ -117,14 +123,14 @@ class ProductCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "\Rs ${documentSnapshot['price'].toStringAsFixed(0)}",
+                            "\Rs ${product.documentSnapshot['price'].toStringAsFixed(0)}",
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           Text(
-                            "Rs ${documentSnapshot['comparedPrice'].toStringAsFixed(0)}",
+                            "Rs ${product.documentSnapshot['comparedPrice'].toStringAsFixed(0)}",
                             style: const TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 fontWeight: FontWeight.bold,
@@ -144,7 +150,7 @@ class ProductCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             CounterForCard(
-                              documentSnapshot: documentSnapshot,
+                              documentSnapshot: product.documentSnapshot,
                             )
                           ],
                         ),

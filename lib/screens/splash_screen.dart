@@ -6,7 +6,6 @@ import 'package:multi_vending_grocery_app/screens/main_screen.dart';
 import 'package:multi_vending_grocery_app/screens/welcome_screen.dart';
 import 'package:multi_vending_grocery_app/services/services_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

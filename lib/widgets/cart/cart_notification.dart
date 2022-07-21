@@ -21,11 +21,7 @@ class _CartNotificationState extends State<CartNotification> {
   Widget build(BuildContext context) {
     final _cartProvider = Provider.of<CartProvider>(context);
     _cartProvider.getCartTotal();
-    cartServices.getShopName().then((value) {
-      setState(() {
-        documentSnapshot = value;
-      });
-    });
+    _cartProvider.getShopName();
 
     return Visibility(
       visible: _cartProvider.distance <= 10
@@ -71,9 +67,9 @@ class _CartNotificationState extends State<CartNotification> {
                         ),
                       ],
                     ),
-                    if (documentSnapshot != null)
+                    if (_cartProvider.documentSnapshot != null)
                       Text(
-                        "From ${documentSnapshot?['shopName']}",
+                        "From ${_cartProvider.documentSnapshot?['shopName']}",
                         style:
                             const TextStyle(color: Colors.white, fontSize: 12),
                       )
@@ -86,7 +82,7 @@ class _CartNotificationState extends State<CartNotification> {
                     context,
                     settings: const RouteSettings(name: CartScreen.id),
                     screen: CartScreen(
-                      documentSnapshot: documentSnapshot,
+                      documentSnapshot: _cartProvider.documentSnapshot,
                     ),
                     withNavBar: true,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,

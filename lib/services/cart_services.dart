@@ -76,10 +76,4 @@ class CartServices {
     final snapshot = await cart.doc(user?.uid).get();
     return snapshot.exists ? snapshot['shopName'] : null;
   }
-
-  Future getShopName() async {
-    DocumentSnapshot documentSnapshot = await cart.doc(user?.uid).get();
-    return documentSnapshot;
-  }
-
 }

@@ -1,11 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/constants.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
-import 'package:multi_vending_grocery_app/screens/home_screen.dart';
 import 'package:multi_vending_grocery_app/screens/map_screen.dart';
-import 'package:multi_vending_grocery_app/services/services_user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({Key? key}) : super(key: key);

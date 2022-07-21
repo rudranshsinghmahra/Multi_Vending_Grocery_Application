@@ -1,18 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/providers/store_provider.dart';
 import 'package:multi_vending_grocery_app/widgets/products/product_filter_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/products/product_list.dart';
-import '../widgets/vendor_app_bar.dart';
 
 class ProductListScreen extends StatelessWidget {
   const ProductListScreen({Key? key}) : super(key: key);
   static const String id = 'product-list-screen';
   @override
   Widget build(BuildContext context) {
-    var _storeProvider = Provider.of<StoreProvider>(context);
+    var storeProvider = Provider.of<StoreProvider>(context);
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -21,7 +18,7 @@ class ProductListScreen extends StatelessWidget {
               floating: true,
               snap: true,
               title: Text(
-                _storeProvider.selectedProductCategory.toString(),
+                storeProvider.selectedProductCategory.toString(),
                 style: const TextStyle(color: Colors.white),
               ),
               iconTheme: const IconThemeData(color: Colors.white),
@@ -31,7 +28,7 @@ class ProductListScreen extends StatelessWidget {
                 child: Container(
                   height: 56,
                   color: Colors.grey,
-                  child: ProductFilterWidget(),
+                  child: const ProductFilterWidget(),
                 ),
               ),
             )

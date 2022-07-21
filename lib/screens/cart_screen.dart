@@ -5,7 +5,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/cart_provider.dart';
 import 'package:multi_vending_grocery_app/providers/coupons_provider.dart';
+import 'package:multi_vending_grocery_app/providers/orders_provider.dart';
+import 'package:multi_vending_grocery_app/screens/payments/stripe/payment_home.dart';
 import 'package:multi_vending_grocery_app/screens/profile_screen.dart';
+import 'package:multi_vending_grocery_app/services/order_services.dart';
 import 'package:multi_vending_grocery_app/services/services_user.dart';
 import 'package:multi_vending_grocery_app/services/store_services.dart';
 import 'package:multi_vending_grocery_app/widgets/cart/cart_list.dart';
@@ -17,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 import '../providers/location_provider.dart';
+import '../services/cart_services.dart';
 import 'map_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -31,7 +35,9 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final StoreServices _store = StoreServices();
   final UserServices _userServices = UserServices();
+  final OrderService _orderService = OrderService();
   User? user = FirebaseAuth.instance.currentUser;
+  final CartServices _cartServices = CartServices();
 
   DocumentSnapshot? dSnapshot;
   var textStyle = const TextStyle(color: Colors.grey);
@@ -78,7 +84,7 @@ class _CartScreenState extends State<CartScreen> {
         discount = subTotal * discountRate;
       });
     });
-
+    final orderProvider = Provider.of<OrderProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
@@ -189,7 +195,7 @@ class _CartScreenState extends State<CartScreen> {
                               _userServices
                                   .getUserDataById(user!.uid)
                                   .then((value) {
-                                if (value['id'] == null) {
+                                if (value['firstName'] == null) {
                                   EasyLoading.dismiss();
                                   pushNewScreenWithRouteSettings(
                                     context,
@@ -200,17 +206,27 @@ class _CartScreenState extends State<CartScreen> {
                                         PageTransitionAnimation.cupertino,
                                   );
                                 } else {
-                                  //Confirm Payment Method
                                   EasyLoading.dismiss();
-                                  setState(() {
-                                    _checkingUser = false;
-                                  });
-                                  if (_cartProvider.cod == true) {
-                                    // ignore: avoid_print
-                                    print("Cash on Delivery");
+                                  // EasyLoading.show(status: "Please Wait....");
+                                  //TODO: PAYMENT GATEWAY INTEGRATION
+                                  if (_cartProvider.cod == false) {
+                                    //Pay Online
+                                    orderProvider.totalAmountPayable(
+                                        payable,
+                                        widget.documentSnapshot?['shopName'],
+                                        userDetails.documentSnapshot?['email']);
+                                    Navigator.pushNamed(context, PaymentHome.id)
+                                        .whenComplete(() {
+                                      print(orderProvider.success);
+                                      if (orderProvider.success == true) {
+                                        _saveOrder(_cartProvider, payable,
+                                            _couponProvider, orderProvider);
+                                      }
+                                    });
                                   } else {
-                                    // ignore: avoid_print
-                                    print("Will Pay Online");
+                                    // Cash On Delivery
+                                    _saveOrder(_cartProvider, payable,
+                                        _couponProvider, orderProvider);
                                   }
                                 }
                               });
@@ -351,19 +367,20 @@ class _CartScreenState extends State<CartScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                  child: Text(
-                                                "Discount",
-                                                style: textStyle,
-                                              )),
-                                              Text(
-                                                "- \Rs ${discount.toString()}",
-                                                style: textStyle,
-                                              ),
-                                            ],
-                                          ),
+                                          if (discount > 0)
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                    child: Text(
+                                                  "Discount",
+                                                  style: textStyle,
+                                                )),
+                                                Text(
+                                                  "- \Rs ${discount.toStringAsFixed(0)}",
+                                                  style: textStyle,
+                                                ),
+                                              ],
+                                            ),
                                           const SizedBox(
                                             height: 10,
                                           ),
@@ -456,5 +473,42 @@ class _CartScreenState extends State<CartScreen> {
                   ),
       ),
     );
+  }
+
+  _saveOrder(CartProvider cartProvider, payable, CouponProvider coupon,
+      OrderProvider orderProvider) {
+    _orderService.saveOrder({
+      'products': cartProvider.cartList,
+      'userId': user?.uid,
+      'deliveryFee': deliveryFee,
+      'total': payable,
+      'discount': discount.toStringAsFixed(0),
+      'cod': cartProvider.cod,
+      'discountCode': coupon.documentSnapshot == null
+          ? null
+          : coupon.documentSnapshot?['title'],
+      'seller': {
+        'shopName': widget.documentSnapshot?['shopName'],
+        'sellerId': widget.documentSnapshot?['sellerUid'],
+      },
+      'timestamp': DateTime.now().toString(),
+      'orderStatus': 'Ordered',
+      'deliveryBoy': {
+        'name': '',
+        'phone': '',
+        'location': const GeoPoint(0, 0),
+        'email': '',
+        'image': '',
+      }
+    }).then((value) {
+      orderProvider.success = false;
+      _cartServices.deleteCart().then((value) {
+        _cartServices.checkData().then((value) {
+          EasyLoading.showSuccess(
+              "Order successfully placed will be accepted or reject soon");
+          Navigator.pop(context);
+        });
+      });
+    });
   }
 }

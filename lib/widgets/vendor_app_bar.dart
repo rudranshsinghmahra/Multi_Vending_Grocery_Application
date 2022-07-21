@@ -3,23 +3,75 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:multi_vending_grocery_app/models/product_model.dart';
+import 'package:multi_vending_grocery_app/widgets/search_card.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
+import 'package:search_page/search_page.dart';
 import '../providers/store_provider.dart';
+import '../screens/product_details_screen.dart';
+import 'cart/counter.dart';
 
-class VendorAppBar extends StatelessWidget {
+class VendorAppBar extends StatefulWidget {
   const VendorAppBar({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var _store = Provider.of<StoreProvider>(context);
+  State<VendorAppBar> createState() => _VendorAppBarState();
+}
 
-    GeoPoint location = _store.storeDetails?['location'];
+class _VendorAppBarState extends State<VendorAppBar> {
+  static List<Product> product = [];
+  String? offer;
+  String? shopName;
+  DocumentSnapshot? documentSnapshot;
+
+  @override
+  void initState() {
+    FirebaseFirestore.instance
+        .collection('products')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        setState(() {
+          documentSnapshot = doc;
+
+          offer = (((doc['comparedPrice']) - (doc['price'])) /
+                  doc['comparedPrice'] *
+                  100)
+              .toStringAsFixed(0);
+          product.add(Product(
+              productName: doc['productName'],
+              category: doc['categoryName']['mainCategory'],
+              image: doc['productImage'],
+              weight: doc['weight'],
+              brand: doc['brand'],
+              shopName: doc['seller']['shopName'],
+              price: doc['price'],
+              comparedPrice: doc['comparedPrice'],
+              documentSnapshot: doc));
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    product.clear();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var store = Provider.of<StoreProvider>(context);
+
+    GeoPoint location = store.storeDetails?['location'];
     Future mapLauncher() async {
       final availableMaps = await MapLauncher.installedMaps;
 
       await availableMaps.first.showMarker(
         coords: Coords(location.latitude, location.longitude),
-        title: "${_store.storeDetails?['shopName']} is here",
+        title: "${store.storeDetails?['shopName']} is here",
       );
     }
 
@@ -44,7 +96,7 @@ class VendorAppBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(_store.storeDetails?['imageUrl']))),
+                        image: NetworkImage(store.storeDetails?['imageUrl']))),
                 child: Container(
                     color: Colors.grey.withOpacity(0.7),
                     child: Padding(
@@ -53,24 +105,24 @@ class VendorAppBar extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         children: [
                           Text(
-                            _store.storeDetails?['dialog'],
+                            store.storeDetails?['dialog'],
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20),
                           ),
                           Text(
-                            _store.storeDetails?['email'],
+                            store.storeDetails?['email'],
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 15),
                           ),
                           Text(
-                            _store.storeDetails?['address'],
+                            store.storeDetails?['address'],
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 15),
                           ),
                           Text(
-                            "Distance: ${_store.distance} km",
+                            "Distance: ${store.distance} km",
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 15),
                           ),
@@ -119,7 +171,7 @@ class VendorAppBar extends StatelessWidget {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                   onPressed: () {
-                                    _callNumber(_store.storeDetails?['mobile']);
+                                    _callNumber(store.storeDetails?['mobile']);
                                   },
                                 ),
                               ),
@@ -152,10 +204,43 @@ class VendorAppBar extends StatelessWidget {
         color: Colors.white,
       ),
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.search))
+        IconButton(
+            onPressed: () {
+              setState(() {
+                shopName = store.storeDetails?['shopName'];
+              });
+              showSearch(
+                context: context,
+                delegate: SearchPage<Product>(
+                  onQueryUpdate: (s) => print(s),
+                  items: product,
+                  searchLabel: 'Search product',
+                  suggestion: const Center(
+                    child: Text('Filter product by name, category, price'),
+                  ),
+                  failure: const Center(
+                    child: Text('No product found :('),
+                  ),
+                  filter: (product) => [
+                    product.productName,
+                    product.category,
+                    product.brand,
+                    product.price.toString(),
+                  ],
+                  builder: (product) => shopName != product.shopName
+                      ? Container()
+                      : SearchCard(
+                          offer: offer,
+                          product: product,
+                          documentSnapshot: product.documentSnapshot,
+                        ),
+                ),
+              );
+            },
+            icon: const Icon(CupertinoIcons.search))
       ],
       title: Text(
-        _store.storeDetails!['shopName'],
+        store.storeDetails!['shopName'],
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );

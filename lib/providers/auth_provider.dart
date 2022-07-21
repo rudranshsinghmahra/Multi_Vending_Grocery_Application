@@ -189,14 +189,19 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future getUserDetails() async {
+  getUserDetails() async {
     var result = await FirebaseFirestore.instance
         .collection('users')
         .doc(_auth.currentUser?.uid)
         .get();
-    documentSnapshot = result;
-    notifyListeners();
-
+    if (result != null) {
+      documentSnapshot = result;
+      notifyListeners();
+    }
+    else{
+      documentSnapshot = null;
+      notifyListeners();
+    }
     return result;
   }
 }

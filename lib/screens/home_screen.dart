@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/widgets/near_by_store.dart';
 import 'package:multi_vending_grocery_app/widgets/top_picked_store.dart';
@@ -16,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? _location = "";
+  String? location = "";
   @override
   void initState() {
     getPreferences();
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? location = prefs.getString('location');
     setState(() {
-      _location = location;
+      this.location = location;
     });
   }
 

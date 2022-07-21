@@ -69,7 +69,7 @@ class _CouponWidgetState extends State<CouponWidget> {
                             .getCouponDetails(
                                 couponController.text, widget.couponVendor)
                             .then((value) {
-                          if (value.data() == null) {
+                          if (_coupon.documentSnapshot == null) {
                             setState(() {
                               _coupon.discountRate = 0;
                               _isVisible = false;
@@ -108,55 +108,58 @@ class _CouponWidgetState extends State<CouponWidget> {
             ),
             Visibility(
               visible: _isVisible,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DottedBorder(
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            color: const Color.fromRGBO(253, 164, 131, 1),
-                          ),
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(couponController.text),
+              child: _coupon.documentSnapshot == null
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DottedBorder(
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: const Color.fromRGBO(253, 164, 131, 1),
+                                ),
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(couponController.text),
+                                    ),
+                                    Divider(
+                                      color: Colors.grey[800],
+                                    ),
+                                    Text(
+                                        "${_coupon.documentSnapshot?['details']}"),
+                                    Text(
+                                        "${_coupon.documentSnapshot?['discountRate']} % discount on total purchase"),
+                                    const SizedBox(
+                                      height: 10,
+                                    )
+                                  ],
+                                ),
                               ),
-                              Divider(
-                                color: Colors.grey[800],
-                              ),
-                              Text("${_coupon.documentSnapshot?['details']}"),
-                              Text(
-                                  "${_coupon.documentSnapshot?['discountRate']} % discount on total purchase"),
-                              const SizedBox(
-                                height: 10,
-                              )
-                            ],
-                          ),
+                            ),
+                            Positioned(
+                                right: -5,
+                                top: -6,
+                                child: IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    setState(() {
+                                      _coupon.discountRate = 0;
+                                      _isVisible = false;
+                                      couponController.clear();
+                                    });
+                                  },
+                                ))
+                          ],
                         ),
                       ),
-                      Positioned(
-                          right: -5,
-                          top: -6,
-                          child: IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              setState(() {
-                                _coupon.discountRate = 0;
-                                _isVisible = false;
-                                couponController.clear();
-                              });
-                            },
-                          ))
-                    ],
-                  ),
-                ),
-              ),
+                    ),
             )
           ],
         ),

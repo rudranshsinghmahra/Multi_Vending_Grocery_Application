@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/constants.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/screens/map_screen.dart';
+import 'package:multi_vending_grocery_app/screens/profile_screen.dart';
 import 'package:multi_vending_grocery_app/screens/welcome_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
@@ -47,13 +48,14 @@ class _MyAppBarState extends State<MyAppBar> {
       title: TextButton(
         style: TextButton.styleFrom(padding: EdgeInsets.zero),
         onPressed: () {
-          locationData.getMyCurrentPosition().then((value){
-            if (value!=null) {
+          locationData.getMyCurrentPosition().then((value) {
+            if (value != null) {
               pushNewScreenWithRouteSettings(
                 context,
                 settings: const RouteSettings(name: MapScreen.id),
                 screen: const MapScreen(),
-                withNavBar: false, // have to make this false if navigating outside
+                withNavBar:
+                    false, // have to make this false if navigating outside
                 pageTransitionAnimation: PageTransitionAnimation.cupertino,
               );
             } else {
@@ -92,7 +94,7 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
             Flexible(
               child: Text(
-                _address == null ? "Please set Delivery Location" :  "$_address",
+                _address == null ? "Please set Delivery Location" : "$_address",
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(color: Colors.white, fontSize: 18),
               ),
@@ -114,7 +116,8 @@ class _MyAppBarState extends State<MyAppBar> {
                 context,
                 settings: const RouteSettings(name: WelcomeScreen.id),
                 screen: const WelcomeScreen(),
-                withNavBar: false, // have to make this false if navigating outside
+                withNavBar:
+                    false, // have to make this false if navigating outside
                 pageTransitionAnimation: PageTransitionAnimation.cupertino,
               );
             },
@@ -127,7 +130,14 @@ class _MyAppBarState extends State<MyAppBar> {
               Icons.account_circle,
               size: 25,
             ),
-            onPressed: () {},
+            onPressed: () {
+              pushNewScreenWithRouteSettings(
+                context,
+                settings: const RouteSettings(name: ProfileScreen.id),
+                screen: const ProfileScreen(),
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            },
           ),
         )
       ],

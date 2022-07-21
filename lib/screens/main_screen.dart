@@ -20,7 +20,7 @@ class MainScreen extends StatelessWidget {
       return [
         const HomeScreen(),
         const FavouriteScreen(),
-        const MyOrders(),
+        const MyOrdersScreen(),
         const ProfileScreen(),
       ];
     }
