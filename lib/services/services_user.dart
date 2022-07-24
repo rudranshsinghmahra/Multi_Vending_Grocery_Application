@@ -14,7 +14,7 @@ class UserServices {
 
   Future<void> updateUserData(Map<String, dynamic> map) async {
     String id = map['id'];
-    await _firestore.collection(collection).doc(id).set(map);
+    await _firestore.collection(collection).doc(id).update(map);
   }
 
   //Getting User Data

@@ -156,6 +156,9 @@ class AuthProvider extends ChangeNotifier {
     String? number,
   }) {
     _userServices.createUser({
+      'firstName': "First",
+      'lastName': "Last",
+      'email': "firstlast@gmail.com",
       'id': id,
       'number': number,
       'latitude': latitude,
@@ -173,6 +176,9 @@ class AuthProvider extends ChangeNotifier {
   }) async {
     try {
       _userServices.updateUserData({
+        // 'firstName': "dwa",
+        // 'lastName': "dwad",
+        // 'email': "dawda@gmail.com",
         'id': id,
         'number': number,
         'latitude': latitude,
@@ -197,8 +203,7 @@ class AuthProvider extends ChangeNotifier {
     if (result != null) {
       documentSnapshot = result;
       notifyListeners();
-    }
-    else{
+    } else {
       documentSnapshot = null;
       notifyListeners();
     }

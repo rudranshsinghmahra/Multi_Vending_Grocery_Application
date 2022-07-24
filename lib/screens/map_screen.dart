@@ -23,7 +23,6 @@ class _MapScreenState extends State<MapScreen> {
   bool loggedIn = false;
   User? user;
   @override
-
   void initState() {
     getCurrentUser();
     super.initState();
@@ -44,7 +43,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final locationData = Provider.of<LocationProvider>(context);
-    final _auth = Provider.of<AuthProvider>(context);
+    final auth = Provider.of<AuthProvider>(context);
     setState(() {
       currentLocation = LatLng(locationData.latitude, locationData.longitude);
     });
@@ -113,22 +112,24 @@ class _MapScreenState extends State<MapScreen> {
                               ? const LinearProgressIndicator()
                               : Container(),
                           TextButton.icon(
-                            onPressed: () {
-
-                            },
+                            onPressed: () {},
                             icon: const Icon(Icons.location_searching),
                             label: Text(
                               isLoading
-                                  ? "Locating..." : locationData.selectedAddress == null ? "Locating..."
-                                  : "${locationData.selectedAddress?.featureName}",
+                                  ? "Locating..."
+                                  : locationData.selectedAddress == null
+                                      ? "Locating..."
+                                      : "${locationData.selectedAddress?.featureName}",
                               style: const TextStyle(fontSize: 20),
                               textAlign: TextAlign.start,
                             ),
                           ),
                           Text(
                             isLoading
-                                ? "" : locationData.selectedAddress == null ? ""
-                                : "${locationData.selectedAddress?.addressLine}",
+                                ? ""
+                                : locationData.selectedAddress == null
+                                    ? ""
+                                    : "${locationData.selectedAddress?.addressLine}",
                             style: const TextStyle(fontSize: 20),
                             textAlign: TextAlign.start,
                           ),
@@ -151,17 +152,22 @@ class _MapScreenState extends State<MapScreen> {
                                         context, LoginScreen.id);
                                   } else {
                                     setState(() {
-                                      _auth.latitude = locationData.latitude;
-                                      _auth.longitude = locationData.longitude;
-                                      _auth.address = locationData.selectedAddress?.addressLine;
-                                      _auth.location = locationData.selectedAddress?.featureName;
+                                      auth.latitude = locationData.latitude;
+                                      auth.longitude = locationData.longitude;
+                                      auth.address = locationData
+                                          .selectedAddress?.addressLine;
+                                      auth.location = locationData
+                                          .selectedAddress?.featureName;
                                     });
-                                    _auth.updateUser(
-                                        id: user?.uid,
-                                        number: user?.phoneNumber,
-                                    ).then((value){
-                                      if(value==true){
-                                        Navigator.pushReplacementNamed(context, MainScreen.id);
+                                    auth
+                                        .updateUser(
+                                      id: user?.uid,
+                                      number: user?.phoneNumber,
+                                    )
+                                        .then((value) {
+                                      if (value == true) {
+                                        Navigator.pushReplacementNamed(
+                                            context, MainScreen.id);
                                       }
                                     });
                                   }

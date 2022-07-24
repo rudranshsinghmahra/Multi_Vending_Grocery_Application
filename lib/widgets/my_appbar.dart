@@ -83,9 +83,9 @@ class _MyAppBarState extends State<MyAppBar> {
                 const SizedBox(
                   width: 15,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: const Icon(
+                const Padding(
+                  padding: EdgeInsets.only(top: 15),
+                  child: Icon(
                     Icons.edit_outlined,
                     color: Colors.white,
                   ),
