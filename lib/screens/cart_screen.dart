@@ -21,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../providers/location_provider.dart';
 import '../services/cart_services.dart';
+import '../widgets/custom_toggle_button.dart';
 import 'map_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -72,14 +73,14 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _cartProvider = Provider.of<CartProvider>(context);
-    var _couponProvider = Provider.of<CouponProvider>(context);
-    var payable = _cartProvider.subTotal + deliveryFee - discount;
+    var cartProvider = Provider.of<CartProvider>(context);
+    var couponProvider = Provider.of<CouponProvider>(context);
+    var payable = cartProvider.subTotal + deliveryFee - discount;
     final locationData = Provider.of<LocationProvider>(context);
     var userDetails = Provider.of<AuthProvider>(context);
     userDetails.getUserDetails().then((value) {
-      double subTotal = _cartProvider.subTotal;
-      double discountRate = _couponProvider.discountRate / 100;
+      double subTotal = cartProvider.subTotal;
+      double discountRate = couponProvider.discountRate / 100;
       setState(() {
         discount = subTotal * discountRate;
       });
@@ -209,7 +210,7 @@ class _CartScreenState extends State<CartScreen> {
                                   EasyLoading.dismiss();
                                   // EasyLoading.show(status: "Please Wait....");
                                   //TODO: PAYMENT GATEWAY INTEGRATION
-                                  if (_cartProvider.cod == false) {
+                                  if (cartProvider.cod == false) {
                                     //Pay Online
                                     orderProvider.totalAmountPayable(
                                         payable,
@@ -219,24 +220,24 @@ class _CartScreenState extends State<CartScreen> {
                                         .whenComplete(() {
                                       print(orderProvider.success);
                                       if (orderProvider.success == true) {
-                                        _saveOrder(_cartProvider, payable,
-                                            _couponProvider, orderProvider);
+                                        _saveOrder(cartProvider, payable,
+                                            couponProvider, orderProvider);
                                       }
                                     });
                                   } else {
                                     // Cash On Delivery
-                                    _saveOrder(_cartProvider, payable,
-                                        _couponProvider, orderProvider);
+                                    _saveOrder(cartProvider, payable,
+                                        couponProvider, orderProvider);
                                   }
                                 }
                               });
                             },
-                            child: _checkingUser
-                                ? const CircularProgressIndicator()
-                                : const Text("CHECKOUT"),
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
                                     Colors.redAccent)),
+                            child: _checkingUser
+                                ? const CircularProgressIndicator()
+                                : const Text("CHECKOUT"),
                           )
                         ],
                       ),
@@ -264,7 +265,7 @@ class _CartScreenState extends State<CartScreen> {
                   Row(
                     children: [
                       Text(
-                        "${_cartProvider.cartQty} ${_cartProvider.cartQty > 1 ? "Items" : "Item"}",
+                        "${cartProvider.cartQty} ${cartProvider.cartQty > 1 ? "Items" : "Item"}",
                         style:
                             const TextStyle(fontSize: 10, color: Colors.grey),
                       ),
@@ -282,7 +283,7 @@ class _CartScreenState extends State<CartScreen> {
         },
         body: dSnapshot == null
             ? const Center(child: CircularProgressIndicator())
-            : _cartProvider.cartQty > 0
+            : cartProvider.cartQty > 0
                 ? SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 56),
                     child: Container(
@@ -318,7 +319,7 @@ class _CartScreenState extends State<CartScreen> {
                                         fontSize: 12, color: Colors.grey),
                                   ),
                                 ),
-                                const CodToggleSwitch(),
+                                const CustomToggleButton(),
                                 Divider(
                                   color: Colors.grey[300],
                                 )
@@ -358,7 +359,7 @@ class _CartScreenState extends State<CartScreen> {
                                                 style: textStyle,
                                               )),
                                               Text(
-                                                _cartProvider.subTotal
+                                                cartProvider.subTotal
                                                     .toStringAsFixed(0),
                                                 style: textStyle,
                                               ),
@@ -444,7 +445,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    "Rs ${_cartProvider.savings.toStringAsFixed(0)}",
+                                                    "Rs ${cartProvider.savings.toStringAsFixed(0)}",
                                                     style: const TextStyle(
                                                         color: Colors
                                                             .deepPurpleAccent),

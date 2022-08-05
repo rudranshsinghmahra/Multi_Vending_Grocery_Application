@@ -15,7 +15,7 @@ class CodToggleSwitch extends StatelessWidget {
         backgroundColor: Colors.grey[600],
         textColor: Colors.grey[300],
         selectedTabColor: Theme.of(context).primaryColor,
-        labels: ["Pay Online", "Cash On Delivery"],
+        labels: const ["Pay Online", "Cash On Delivery"],
         onSelectionUpdated: (index) {
           _cart.getPaymentMethod(index);
         },

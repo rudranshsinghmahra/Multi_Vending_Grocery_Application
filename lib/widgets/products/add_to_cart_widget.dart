@@ -64,7 +64,7 @@ class _AddToCardWidgetState extends State<AddToCardWidget> {
     });
 
     return isLoading
-        ? Container(
+        ? SizedBox(
             height: 56,
             child: Center(
               child: CircularProgressIndicator(

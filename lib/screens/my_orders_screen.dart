@@ -102,8 +102,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListView(
-                        children:
-                            snapshot.data!.docs.map((DocumentSnapshot document) {
+                        children: snapshot.data!.docs
+                            .map((DocumentSnapshot document) {
                           Map<String, dynamic> data =
                               document.data()! as Map<String, dynamic>;
                           return Container(
@@ -120,7 +120,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                     data['orderStatus'],
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: _orderServices.statusColor(document),
+                                      color:
+                                          _orderServices.statusColor(document),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -154,17 +155,21 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: ClipRRect(
-                                      borderRadius : BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(10),
                                       child: Container(
-                                        color: Theme.of(context).primaryColor.withOpacity(0.3),
+                                        color: Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(0.3),
                                         child: ListTile(
                                           leading: ClipRRect(
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                             child: SizedBox(
                                               width: 50,
                                               height: 40,
                                               child: Image.network(
-                                                document['deliveryBoy']['image'],
+                                                document['deliveryBoy']
+                                                    ['image'],
                                                 fit: BoxFit.fill,
                                               ),
                                             ),
@@ -172,8 +177,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                           title: Text(
                                             document['deliveryBoy']['name'],
                                           ),
-                                          subtitle: Text(
-                                              _orderServices.statusComment(document)),
+                                          subtitle: Text(_orderServices
+                                              .statusComment(document)),
                                         ),
                                       ),
                                     ),
@@ -200,8 +205,9 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                         return ListTile(
                                           leading: CircleAvatar(
                                             backgroundColor: Colors.white,
-                                            child: Image.network(data['products']
-                                                [index]['productImage']),
+                                            child: Image.network(
+                                                data['products'][index]
+                                                    ['productImage']),
                                           ),
                                           title: Text(data['products'][index]
                                               ['productName']),
@@ -212,7 +218,10 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 12, right: 12, top: 8, bottom: 8),
+                                          left: 12,
+                                          right: 12,
+                                          top: 8,
+                                          bottom: 8),
                                       child: Card(
                                         elevation: 8,
                                         color: Colors.green,
@@ -282,8 +291,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                                               "${data['discountCode']}",
                                                               style:
                                                                   const TextStyle(
-                                                                color:
-                                                                    Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,

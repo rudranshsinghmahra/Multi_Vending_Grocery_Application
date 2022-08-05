@@ -11,8 +11,9 @@ class VendorBannerController extends GetxController {
 
   Future<void> getBannerData() async {
     await _fireStore.collection('vendorBanner').get().then((value) {
-      bannerData =
-          value.docs.map((e) => VendorBannerDataModel.fromJson(e.data())).toList();
+      bannerData = value.docs
+          .map((e) => VendorBannerDataModel.fromJson(e.data()))
+          .toList();
     });
   }
 

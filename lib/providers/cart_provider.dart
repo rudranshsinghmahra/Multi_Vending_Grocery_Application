@@ -55,8 +55,11 @@ class CartProvider extends ChangeNotifier {
     if (index == 0) {
       cod = false;
       notifyListeners();
-    } else {
+    } else if (index == 1) {
       cod = true;
+      notifyListeners();
+    } else {
+      cod = false;
       notifyListeners();
     }
   }

@@ -12,7 +12,6 @@ class VendorBanner extends StatefulWidget {
 }
 
 class _VendorBannerState extends State<VendorBanner> {
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

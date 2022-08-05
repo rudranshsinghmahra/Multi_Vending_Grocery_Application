@@ -5,12 +5,9 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:multi_vending_grocery_app/models/product_model.dart';
 import 'package:multi_vending_grocery_app/widgets/search_card.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:search_page/search_page.dart';
 import '../providers/store_provider.dart';
-import '../screens/product_details_screen.dart';
-import 'cart/counter.dart';
 
 class VendorAppBar extends StatefulWidget {
   const VendorAppBar({Key? key}) : super(key: key);

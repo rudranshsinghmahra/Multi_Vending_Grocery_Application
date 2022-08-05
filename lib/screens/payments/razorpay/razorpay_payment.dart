@@ -85,7 +85,7 @@ class _RazorpayPaymentState extends State<RazorpayPayment> {
     final orderProvider = Provider.of<OrderProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Razorpay Sample App'),
+        title: const Text('Razorpay Payment Gateway'),
       ),
       body: Center(
           child: Row(
@@ -96,17 +96,22 @@ class _RazorpayPaymentState extends State<RazorpayPayment> {
               children: [
                 Text("Total Payable Amount: Rs ${orderProvider.amount}"),
                 ElevatedButton(
-                    onPressed: () {
-                      openCheckout(orderProvider).whenComplete(() {
-                        print("Response from the payment is : $success");
-                        if (success = true) {
-                          orderProvider.paymentStatus(true);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        }
-                      });
-                    },
-                    child: const Text('Continue')),
+                  onPressed: () {
+                    openCheckout(orderProvider).whenComplete(() {
+                      print("Response from the payment is : $success");
+                      if (success = true) {
+                        orderProvider.paymentStatus(true);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      } else {
+                        setState(() {
+                          success = false;
+                        });
+                      }
+                    });
+                  },
+                  child: const Text('Continue'),
+                ),
               ],
             )
           ])),
