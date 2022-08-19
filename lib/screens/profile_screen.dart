@@ -114,13 +114,24 @@ class ProfileScreen extends StatelessWidget {
                                             Icons.location_on,
                                             color: Colors.deepPurpleAccent,
                                           ),
-                                          title: Text(userDetails
-                                              .documentSnapshot?['location']),
-                                          subtitle: Text(
-                                            userDetails
-                                                .documentSnapshot?['address'],
-                                            maxLines: 2,
-                                          ),
+                                          title: userDetails.documentSnapshot?[
+                                                      'location'] ==
+                                                  null
+                                              ? const Text("Location not Set")
+                                              : Text(
+                                                  userDetails.documentSnapshot?[
+                                                      'location']),
+                                          subtitle: userDetails
+                                                          .documentSnapshot?[
+                                                      'address'] ==
+                                                  null
+                                              ? const Text(
+                                                  "Complete Address not Set")
+                                              : Text(
+                                                  userDetails.documentSnapshot?[
+                                                      'address'],
+                                                  maxLines: 2,
+                                                ),
                                           trailing: OutlinedButton(
                                             child: Text("Change"),
                                             onPressed: () {

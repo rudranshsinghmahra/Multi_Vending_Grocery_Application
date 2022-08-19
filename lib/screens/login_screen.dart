@@ -3,6 +3,8 @@ import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'otp_verification_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
   static const String id = 'login-screen';
@@ -89,21 +91,22 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               setState(() {
                                 auth.isLoading = true;
-                                auth.screen = "MapScreen";
+                                auth.currentScreen = "MapScreen";
                                 auth.latitude = locationData.latitude;
                                 auth.longitude = locationData.longitude;
-                                auth.address = locationData.selectedAddress?.addressLine;
+                                auth.address =
+                                    locationData.selectedAddress?.addressLine;
                               });
-                              String number =
-                                  '+91${_phoneNumberController.text}';
-                              auth
-                                  .verifyPhoneNumber(
-                                context: context,
-                                number: number,
-                              )
-                                  .then((value) {
-                                    _phoneNumberController.clear();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OtpVerificationScreen(
+                                      number:
+                                          '+91${_phoneNumberController.text}'),
+                                ),
+                              ).then((value) {
                                 setState(() {
+                                  _phoneNumberController.clear();
                                   auth.isLoading = false;
                                 });
                               });

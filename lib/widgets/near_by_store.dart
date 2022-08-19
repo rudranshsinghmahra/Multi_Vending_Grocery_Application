@@ -25,7 +25,7 @@ class _NearByStoreState extends State<NearByStore> {
   @override
   Widget build(BuildContext context) {
     final storeData = Provider.of<StoreProvider>(context);
-    final _cart = Provider.of<CartProvider>(context);
+    final cart = Provider.of<CartProvider>(context);
     storeData.getUserLocation(context);
 
     String getDistance(location) {
@@ -58,7 +58,7 @@ class _NearByStoreState extends State<NearByStore> {
               .sort(); // this will sort with nearest distance. If nearest distance
 
           SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {
-                _cart.getDistance(actualShopDistance[0]);
+                cart.getDistance(actualShopDistance[0]);
               }));
           if (actualShopDistance[0] > 10) {
             return Container();

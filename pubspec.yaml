@@ -65,6 +65,7 @@ dependencies:
   flutter_slidable:
   razorpay_flutter:
   search_page:
+  lottie:
 
 dev_dependencies:
   flutter_test:

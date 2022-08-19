@@ -3,6 +3,7 @@ import 'package:multi_vending_grocery_app/providers/auth_provider.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/screens/map_screen.dart';
 import 'package:multi_vending_grocery_app/screens/on_board_screen.dart';
+import 'package:multi_vending_grocery_app/screens/otp_verification_screen.dart';
 import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -18,9 +19,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
     final Size size = MediaQuery.of(context).size;
-    TextEditingController _phoneNumberController = TextEditingController();
+    TextEditingController phoneNumberController = TextEditingController();
     final locationData = Provider.of<LocationProvider>(context, listen: false);
-    bool _validPhoneNumber = false;
+    bool validPhoneNumber = false;
 
     void showBottomSheet(context) {
       showModalBottomSheet(
@@ -50,7 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     padding:
                         const EdgeInsets.only(top: 8.0, left: 20, right: 20),
                     child: TextField(
-                      controller: _phoneNumberController,
+                      controller: phoneNumberController,
                       maxLength: 10,
                       style: const TextStyle(fontSize: 20),
                       keyboardType: TextInputType.phone,
@@ -65,12 +66,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       onChanged: (value) {
                         if (value.length == 10) {
                           stateSetter(() {
-                            _validPhoneNumber = true;
+                            validPhoneNumber = true;
                           });
                         } else {
                           stateSetter(
                             () {
-                              _validPhoneNumber = false;
+                              validPhoneNumber = false;
                             },
                           );
                         }
@@ -85,10 +86,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: AbsorbPointer(
-                              absorbing: _validPhoneNumber ? false : true,
+                              absorbing: validPhoneNumber ? false : true,
                               child: ElevatedButton(
                                 style: ButtonStyle(
-                                    backgroundColor: _validPhoneNumber
+                                    backgroundColor: validPhoneNumber
                                         ? MaterialStateProperty.all(
                                             Colors.deepPurple)
                                         : MaterialStateProperty.all(
@@ -97,16 +98,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   stateSetter(() {
                                     auth.isLoading = true;
                                   });
-                                  String number =
-                                      '+91${_phoneNumberController.text}';
-                                  auth.verifyPhoneNumber(
-                                    context: context,
-                                    number: number,
-                                    // latitude: null,
-                                    // longitude: null,
-                                    // address: null
+                                  // String number =
+                                  //     '+91${phoneNumberController.text}';
+                                  // auth.verifyPhoneNumber(
+                                  //   context: context,
+                                  //   number: number,
+                                  // );
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OtpVerificationScreen(
+                                          number:
+                                              '+91${phoneNumberController.text}'),
+                                    ),
                                   );
-                                  // auth.isLoading = false;
                                 },
                                 child: auth.isLoading
                                     ? const Center(
@@ -117,7 +122,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                         ),
                                       )
                                     : Text(
-                                        _validPhoneNumber
+                                        validPhoneNumber
                                             ? "Continue"
                                             : "Enter Phone Number",
                                         style: const TextStyle(
@@ -181,8 +186,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("New User?",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                        SizedBox(height: 50,child: Image.asset('assets/forward_arrow.gif')),
+                        const Text(
+                          "New User?",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                            height: 50,
+                            child: Image.asset('assets/forward_arrow.gif')),
                         TextButton(
                           style: ButtonStyle(
                               elevation: MaterialStateProperty.all(1),
@@ -195,7 +206,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             });
                             await locationData.getMyCurrentPosition();
                             if (locationData.permissionAllowed) {
-                              Navigator.pushReplacementNamed(context, MapScreen.id);
+                              Navigator.pushReplacementNamed(
+                                  context, MapScreen.id);
                               setState(() {
                                 locationData.isLoading = false;
                               });
@@ -207,18 +219,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           },
                           child: locationData.isLoading
                               ? const Center(
-                            child: CircularProgressIndicator(
-                              valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          )
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
+                                  ),
+                                )
                               : const Text(
-                            "Set Location",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
+                                  "Set Location",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                  ),
+                                ),
                         ),
                       ],
                     ),
@@ -228,7 +240,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          auth.screen = "Login";
+                          auth.currentScreen = "Login";
                         });
                         showBottomSheet(context);
                       },

@@ -16,6 +16,7 @@ import 'package:multi_vending_grocery_app/screens/login_screen.dart';
 import 'package:multi_vending_grocery_app/screens/main_screen.dart';
 import 'package:multi_vending_grocery_app/screens/map_screen.dart';
 import 'package:multi_vending_grocery_app/screens/my_orders_screen.dart';
+import 'package:multi_vending_grocery_app/screens/otp_verification_screen.dart';
 import 'package:multi_vending_grocery_app/screens/payments/razorpay/razorpay_payment.dart';
 import 'package:multi_vending_grocery_app/screens/payments/stripe/create_new_card_screen.dart';
 import 'package:multi_vending_grocery_app/screens/payments/stripe/credit_card_list.dart';
@@ -91,6 +92,7 @@ class MyApp extends StatelessWidget {
         CreateNewCard.id: (context) => const CreateNewCard(),
         ExistingCardsPage.id: (context) => const ExistingCardsPage(),
         RazorpayPayment.id: (context) => const RazorpayPayment(),
+        OtpVerificationScreen.id: (context) => const OtpVerificationScreen(),
       },
       builder: EasyLoading.init(),
       debugShowCheckedModeBanner: false,
