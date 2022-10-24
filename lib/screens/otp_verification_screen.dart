@@ -50,13 +50,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           setState(() {
             verificationCode = verificationId;
           });
-          // smsOtpDialog(context, number);
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           isLoading = false;
-          setState(() {
-            verificationCode = verificationId;
-          });
+          if (mounted) {
+            setState(() {
+              verificationCode = verificationId;
+            });
+          }
         },
       );
     } catch (e) {

@@ -35,9 +35,9 @@ class _ProductFilterWidgetState extends State<ProductFilterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var _store = Provider.of<StoreProvider>(context);
+    var store = Provider.of<StoreProvider>(context);
     return FutureBuilder<DocumentSnapshot>(
-        future: _services.category.doc(_store.selectedProductCategory).get(),
+        future: _services.category.doc(store.selectedProductCategory).get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -49,49 +49,46 @@ class _ProductFilterWidgetState extends State<ProductFilterWidget> {
           }
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          return Container(
-              height: 50,
-              color: Colors.grey,
-              child: ListView(
+          return ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              ActionChip(
+                elevation: 4,
+                label: Text("All ${store.selectedProductCategory}"),
+                onPressed: () {
+                  store
+                      .selectedCategorySub(null); // This will remove the filter
+                },
+                backgroundColor: Colors.white,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  ActionChip(
-                    elevation: 4,
-                    label: Text("All ${_store.selectedProductCategory}"),
-                    onPressed: () {
-                      _store.selectedCategorySub(
-                          null); // This will remove the filter
-                    },
-                    backgroundColor: Colors.white,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    physics: ScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
-                        child: _subCatList
-                                .contains(data['subCategory'][index]['name'])
+                physics: const ScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child:
+                        _subCatList.contains(data['subCategory'][index]['name'])
                             ? ActionChip(
                                 elevation: 4,
                                 label: Text(data['subCategory'][index]['name']),
                                 onPressed: () {
-                                  _store.selectedCategorySub(
+                                  store.selectedCategorySub(
                                       data['subCategory'][index]['name']);
                                 },
                                 backgroundColor: Colors.white,
                               )
                             : Container(),
-                      );
-                    },
-                    itemCount: data.length,
-                  )
-                ],
-              ));
+                  );
+                },
+                itemCount: data.length,
+              )
+            ],
+          );
         });
   }
 }

@@ -22,7 +22,7 @@ class ProductListScreen extends StatelessWidget {
                 style: const TextStyle(color: Colors.white),
               ),
               iconTheme: const IconThemeData(color: Colors.white),
-              expandedHeight: 110,
+              expandedHeight: 140,
               flexibleSpace: Padding(
                 padding: const EdgeInsets.only(top: 117),
                 child: Container(

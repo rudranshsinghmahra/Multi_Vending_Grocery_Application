@@ -40,17 +40,21 @@ class _CounterForCardState extends State<CounterForCard> {
         querySnapshot.docs.forEach((doc) {
           if (doc['productId'] == widget.documentSnapshot?['productId']) {
             //This means selected product already exist in your cart, no need to add again
-            setState(() {
-              _qty = doc['qty'];
-              docId = doc.id;
-              _exists = true;
-            });
+            if (mounted) {
+              setState(() {
+                _qty = doc['qty'];
+                docId = doc.id;
+                _exists = true;
+              });
+            }
           }
         });
       } else {
-        setState(() {
-          _exists = false;
-        });
+        if (mounted) {
+          setState(() {
+            _exists = false;
+          });
+        }
       }
     });
   }

@@ -68,7 +68,7 @@ class ProductDetailsScreen extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "\$ ${documentSnapshot?['price'].toStringAsFixed(0)}",
+                  "Rs ${documentSnapshot?['price'].toStringAsFixed(0)}",
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -77,7 +77,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 if (offer > 0)
                   Text(
-                    "\$ ${documentSnapshot?['comparedPrice']}",
+                    "Rs ${documentSnapshot?['comparedPrice']}",
                     style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

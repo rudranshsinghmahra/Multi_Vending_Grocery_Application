@@ -47,9 +47,6 @@ class AuthProvider extends ChangeNotifier {
   }) async {
     try {
       _userServices.updateUserData({
-        // 'firstName': "dwa",
-        // 'lastName': "dwad",
-        // 'email': "dawda@gmail.com",
         'id': id,
         'number': number,
         'latitude': latitude,

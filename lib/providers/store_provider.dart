@@ -19,18 +19,18 @@ class StoreProvider extends ChangeNotifier {
   String? selectedProductCategory;
   String? selectedSubCategory;
 
-  getSelectedStore(storeDetails,distance){
+  getSelectedStore(storeDetails, distance) {
     this.storeDetails = storeDetails;
     this.distance = distance;
     notifyListeners();
   }
 
-  selectedCategory(category){
+  selectedCategory(category) {
     selectedProductCategory = category;
     notifyListeners();
   }
 
-  selectedCategorySub(subCategory){
+  selectedCategorySub(subCategory) {
     selectedSubCategory = subCategory;
     notifyListeners();
   }
@@ -89,5 +89,4 @@ class StoreProvider extends ChangeNotifier {
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
   }
-
 }

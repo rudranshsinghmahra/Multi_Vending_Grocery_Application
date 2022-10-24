@@ -26,40 +26,37 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
           ),
         ),
         child: LayoutBuilder(builder: (context, constraints) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8),
-            child: ToggleButtons(
-              constraints:
-                  BoxConstraints.expand(width: constraints.maxWidth / 2.1),
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.black,
-              selectedColor: Colors.white,
-              renderBorder: false,
-              fillColor: Theme.of(context).primaryColor,
-              isSelected: isSelected,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Pay Online"),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Cash On Delivery"),
-                )
-              ],
-              onPressed: (int newIndex) {
-                setState(() {
-                  for (int index = 0; index < isSelected.length; index++) {
-                    if (index == newIndex) {
-                      isSelected[index] = true;
-                    } else {
-                      isSelected[index] = false;
-                    }
+          return ToggleButtons(
+            constraints:
+                BoxConstraints.expand(width: constraints.maxWidth / 2),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.black,
+            selectedColor: Colors.white,
+            renderBorder: false,
+            fillColor: Theme.of(context).primaryColor,
+            isSelected: isSelected,
+            children: const [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Pay Online"),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Cash On Delivery"),
+              )
+            ],
+            onPressed: (int newIndex) {
+              setState(() {
+                for (int index = 0; index < isSelected.length; index++) {
+                  if (index == newIndex) {
+                    isSelected[index] = true;
+                  } else {
+                    isSelected[index] = false;
                   }
-                });
-                cart.getPaymentMethod(newIndex);
-              },
-            ),
+                }
+              });
+              cart.getPaymentMethod(newIndex);
+            },
           );
         }),
       ),
