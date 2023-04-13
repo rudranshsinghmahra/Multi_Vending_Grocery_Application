@@ -5,7 +5,7 @@ import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/screens/map_screen.dart';
 import 'package:multi_vending_grocery_app/screens/profile_screen.dart';
 import 'package:multi_vending_grocery_app/screens/welcome_screen.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +19,7 @@ class MyAppBar extends StatefulWidget {
 class _MyAppBarState extends State<MyAppBar> {
   String? _location = "";
   String? _address = "";
+
   @override
   void initState() {
     getPreferences();
@@ -50,7 +51,7 @@ class _MyAppBarState extends State<MyAppBar> {
         onPressed: () {
           locationData.getMyCurrentPosition().then((value) {
             if (value != null) {
-              pushNewScreenWithRouteSettings(
+              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                 context,
                 settings: const RouteSettings(name: MapScreen.id),
                 screen: const MapScreen(),
@@ -112,7 +113,7 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
             onPressed: () {
               FirebaseAuth.instance.signOut();
-              pushNewScreenWithRouteSettings(
+              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                 context,
                 settings: const RouteSettings(name: WelcomeScreen.id),
                 screen: const WelcomeScreen(),
@@ -131,7 +132,7 @@ class _MyAppBarState extends State<MyAppBar> {
               size: 25,
             ),
             onPressed: () {
-              pushNewScreenWithRouteSettings(
+              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                 context,
                 settings: const RouteSettings(name: ProfileScreen.id),
                 screen: const ProfileScreen(),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:multi_vending_grocery_app/screens/vendors_home_screen.dart';
 import 'package:multi_vending_grocery_app/services/store_services.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/store_provider.dart';
@@ -96,7 +96,8 @@ class _TopPickedStoreState extends State<TopPickedStore> {
                           onTap: () {
                             storeData.getSelectedStore(
                                 document, getDistance(document['location']));
-                            pushNewScreenWithRouteSettings(
+                            PersistentNavBarNavigator
+                                .pushNewScreenWithRouteSettings(
                               context,
                               settings: const RouteSettings(
                                   name: VendorHomeScreen.id),

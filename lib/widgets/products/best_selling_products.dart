@@ -15,21 +15,22 @@ class BestSellingProduct extends StatelessWidget {
 
     //Will only show seller selected products
     return FutureBuilder<QuerySnapshot>(
-        future: _services.products
-            .where('published', isEqualTo: true)
-            .where('collection', isEqualTo: "Best Selling")
-            .where('seller.sellerUid', isEqualTo: _storeProvider.storeDetails?['uid'])
-            .get(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return const Text("Something Went Wrong");
-          }
-          if (!snapshot.hasData) {
-            return Container();
-          }
-          return Column(
-            children: [
-              if(snapshot.data.docs.length>0)
+      future: _services.products
+          .where('published', isEqualTo: true)
+          .where('collection', isEqualTo: "Best Selling")
+          .where('seller.sellerUid',
+              isEqualTo: _storeProvider.storeDetails?['uid'])
+          .get(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return const Text("Something Went Wrong");
+        }
+        if (!snapshot.hasData) {
+          return Container();
+        }
+        return Column(
+          children: [
+            if (snapshot.data.docs.length > 0)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Material(
@@ -37,6 +38,10 @@ class BestSellingProduct extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Colors.teal[100],
+                        borderRadius: BorderRadius.circular(4)),
+                    height: 56,
                     child: const Center(
                       child: Text(
                         "Best Selling Products",
@@ -53,24 +58,21 @@ class BestSellingProduct extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    decoration: BoxDecoration(
-                        color: Colors.teal[100],
-                        borderRadius: BorderRadius.circular(4)),
-                    height: 56,
                   ),
                 ),
               ),
-              ListView(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children:
-                    snapshot.data.docs.map<Widget>((DocumentSnapshot document) {
-                  return ProductCard(documentSnapshot: document);
-                }).toList(),
-              )
-            ],
-          );
-        });
+            ListView(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children:
+                  snapshot.data.docs.map<Widget>((DocumentSnapshot document) {
+                return ProductCard(documentSnapshot: document);
+              }).toList(),
+            )
+          ],
+        );
+      },
+    );
   }
 }

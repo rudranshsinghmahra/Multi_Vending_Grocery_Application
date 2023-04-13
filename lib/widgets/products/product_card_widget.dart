@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/screens/product_details_screen.dart';
 import 'package:multi_vending_grocery_app/widgets/cart/counter.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({Key? key, required this.documentSnapshot})
       : super(key: key);
   final DocumentSnapshot documentSnapshot;
+
   @override
   Widget build(BuildContext context) {
     String offer =
@@ -31,7 +32,7 @@ class ProductCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
                     onTap: () {
-                      pushNewScreenWithRouteSettings(
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                         context,
                         settings:
                             const RouteSettings(name: ProductDetailsScreen.id),

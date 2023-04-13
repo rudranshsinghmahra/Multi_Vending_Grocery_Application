@@ -6,7 +6,7 @@ import 'package:multi_vending_grocery_app/providers/location_provider.dart';
 import 'package:multi_vending_grocery_app/screens/map_screen.dart';
 import 'package:multi_vending_grocery_app/screens/payments/stripe/credit_card_list.dart';
 import 'package:multi_vending_grocery_app/screens/profile_update_screen.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 import 'my_orders_screen.dart';
@@ -142,7 +142,8 @@ class ProfileScreen extends StatelessWidget {
                                                   .then((value) {
                                                 if (value != null) {
                                                   EasyLoading.dismiss();
-                                                  pushNewScreenWithRouteSettings(
+                                                  PersistentNavBarNavigator
+                                                      .pushNewScreenWithRouteSettings(
                                                     context,
                                                     settings:
                                                         const RouteSettings(
@@ -172,7 +173,8 @@ class ProfileScreen extends StatelessWidget {
                                 child: IconButton(
                                   color: Colors.white,
                                   onPressed: () {
-                                    pushNewScreenWithRouteSettings(
+                                    PersistentNavBarNavigator
+                                        .pushNewScreenWithRouteSettings(
                                       context,
                                       settings: const RouteSettings(
                                           name: UpdateProfile.id),
@@ -190,7 +192,8 @@ class ProfileScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 12.0),
                           child: ListTile(
                             onTap: () {
-                              pushNewScreenWithRouteSettings(
+                              PersistentNavBarNavigator
+                                  .pushNewScreenWithRouteSettings(
                                 context,
                                 settings: const RouteSettings(
                                     name: MyOrdersScreen.id),
@@ -209,7 +212,8 @@ class ProfileScreen extends StatelessWidget {
                           padding: EdgeInsets.only(left: 12.0),
                           child: ListTile(
                             onTap: () {
-                              pushNewScreenWithRouteSettings(
+                              PersistentNavBarNavigator
+                                  .pushNewScreenWithRouteSettings(
                                 context,
                                 settings: const RouteSettings(
                                     name: CreditCardList.id),

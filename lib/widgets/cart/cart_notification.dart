@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/providers/cart_provider.dart';
 import 'package:multi_vending_grocery_app/screens/cart_screen.dart';
 import 'package:multi_vending_grocery_app/services/cart_services.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 class CartNotification extends StatefulWidget {
@@ -78,7 +78,7 @@ class _CartNotificationState extends State<CartNotification> {
               ),
               InkWell(
                 onTap: () {
-                  pushNewScreenWithRouteSettings(
+                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                     context,
                     settings: const RouteSettings(name: CartScreen.id),
                     screen: CartScreen(

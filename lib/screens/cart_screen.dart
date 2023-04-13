@@ -13,8 +13,7 @@ import 'package:multi_vending_grocery_app/services/services_user.dart';
 import 'package:multi_vending_grocery_app/services/store_services.dart';
 import 'package:multi_vending_grocery_app/widgets/cart/cart_list.dart';
 import 'package:multi_vending_grocery_app/widgets/cart/coupon_widget.dart';
-import 'package:multi_vending_grocery_app/widgets/cart/cod_toggle.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +25,7 @@ import 'map_screen.dart';
 
 class CartScreen extends StatefulWidget {
   static const String id = "cart-screen";
+
   const CartScreen({Key? key, this.documentSnapshot}) : super(key: key);
   final DocumentSnapshot? documentSnapshot;
 
@@ -127,13 +127,14 @@ class _CartScreenState extends State<CartScreen> {
                                       setState(() {
                                         _loading = false;
                                       });
-                                      pushNewScreenWithRouteSettings(
+                                      PersistentNavBarNavigator
+                                          .pushNewScreenWithRouteSettings(
                                         context,
                                         settings: const RouteSettings(
                                             name: MapScreen.id),
                                         screen: const MapScreen(),
-                                        withNavBar:
-                                            false, // have to make this false if navigating outside
+                                        withNavBar: false,
+                                        // have to make this false if navigating outside
                                         pageTransitionAnimation:
                                             PageTransitionAnimation.cupertino,
                                       );
@@ -198,7 +199,8 @@ class _CartScreenState extends State<CartScreen> {
                                   .then((value) {
                                 if (value['firstName'] == null) {
                                   EasyLoading.dismiss();
-                                  pushNewScreenWithRouteSettings(
+                                  PersistentNavBarNavigator
+                                      .pushNewScreenWithRouteSettings(
                                     context,
                                     settings: const RouteSettings(
                                         name: ProfileScreen.id),

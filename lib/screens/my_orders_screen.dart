@@ -57,8 +57,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               height: 56,
               width: MediaQuery.of(context).size.width,
               child: ChipsChoice<int>.single(
-                  choiceStyle: const C2ChoiceStyle(
-                      borderRadius: BorderRadius.all(Radius.circular(3))),
+                  // choiceStyle: const C2Choice(
+                  //     borderRadius: BorderRadius.all(Radius.circular(3))),
                   value: tag,
                   onChanged: (val) {
                     if (val == 0) {

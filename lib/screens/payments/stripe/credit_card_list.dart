@@ -5,7 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:multi_vending_grocery_app/screens/payments/stripe/create_new_card_screen.dart';
 import 'package:multi_vending_grocery_app/services/payment_gateways/stripe_payment_service.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class CreditCardList extends StatelessWidget {
   const CreditCardList({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class CreditCardList extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              pushNewScreenWithRouteSettings(
+              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                 context,
                 settings: const RouteSettings(name: CreateNewCard.id),
                 screen: const CreateNewCard(),
@@ -52,19 +52,23 @@ class CreditCardList extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("No saved cards currently",style: TextStyle(fontSize: 20)),
-                  const SizedBox(height: 5,),
-                  ElevatedButton(onPressed: (){
-                    pushNewScreenWithRouteSettings(
-                      context,
-                      settings: const RouteSettings(
-                          name: CreateNewCard.id),
-                      screen: const CreateNewCard(),
-                      pageTransitionAnimation:
-                      PageTransitionAnimation
-                          .cupertino,
-                    );
-                  }, child: const Text("Add Card"))
+                  const Text("No saved cards currently",
+                      style: TextStyle(fontSize: 20)),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        PersistentNavBarNavigator
+                            .pushNewScreenWithRouteSettings(
+                          context,
+                          settings: const RouteSettings(name: CreateNewCard.id),
+                          screen: const CreateNewCard(),
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      },
+                      child: const Text("Add Card"))
                 ],
               ),
             );

@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:147156304764:android:008ba1d0671c104fda9af9",
+        "android_client_info": {
+          "package_name": "com.rudransh.grocery_delivery_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "147156304764-5r7obvrqms2kmdo7faftnucu3b7728bo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rudransh.grocery_delivery_application",
+            "certificate_hash": "f9653b4e59bfda4433d608ca932dfc7dc73a490a"
+          }
+        },
+        {
+          "client_id": "147156304764-tq072st8us30s0og538b1hvqjnvl4jfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKNSapKXYrTKL4xD5cXSnmn5ppC8KDVgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "147156304764-tq072st8us30s0og538b1hvqjnvl4jfh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:147156304764:android:22900b470f4a67f9da9af9",
         "android_client_info": {
           "package_name": "com.rudransh.multi_vending_grocery_app"
@@ -14,11 +51,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "147156304764-hp44l5mat6fk2vodqm6r1bag7up7kgtu.apps.googleusercontent.com",
+          "client_id": "147156304764-cu3gl7vg15sjvpo7gfkm7un913oai7ge.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.rudransh.multi_vending_grocery_app",
-            "certificate_hash": "2d1098edaea33407865882361f83fe484148521e"
+            "certificate_hash": "f9653b4e59bfda4433d608ca932dfc7dc73a490a"
           }
         },
         {
@@ -51,11 +88,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "147156304764-d58osgkr06m8rqbrcc0legt1ltfns1kj.apps.googleusercontent.com",
+          "client_id": "147156304764-udn4fd4a9es9trta7bhmkjfhk98dv58m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.rudransh.vendor_app_for_grocery",
-            "certificate_hash": "3cb73cdc60845005afc5571af3987854e42cbbe4"
+            "certificate_hash": "f9653b4e59bfda4433d608ca932dfc7dc73a490a"
           }
         },
         {

@@ -36,9 +36,10 @@ dependencies:
   cupertino_icons:
   dots_indicator:
   fluttertoast:
-  firebase_auth:
+  firebase_auth: ^3.11.2
   firebase_core:
   url_launcher:
+  firebase_core_platform_interface: 4.5.1
   cloud_firestore:
   provider:
   geolocator:
@@ -49,7 +50,7 @@ dependencies:
   carousel_slider:
   get:
   paginate_firestore:
-  persistent_bottom_nav_bar:
+  persistent_bottom_nav_bar: ^5.0.2
   map_launcher:
   flutter_phone_direct_caller:
   expandable_text:
@@ -66,6 +67,7 @@ dependencies:
   razorpay_flutter:
   search_page:
   lottie:
+  firebase_core_web:
 
 dev_dependencies:
   flutter_test:

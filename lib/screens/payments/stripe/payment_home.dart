@@ -1,8 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:multi_vending_grocery_app/providers/orders_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:multi_vending_grocery_app/providers/orders_provider.dart';
 import 'package:multi_vending_grocery_app/screens/payments/razorpay/razorpay_payment.dart';
 import 'package:multi_vending_grocery_app/screens/payments/stripe/create_new_card_screen.dart';
 import 'package:provider/provider.dart';
@@ -206,11 +207,7 @@ class PaymentHomeState extends State<PaymentHome> {
               paymentSheetParameters: SetupPaymentSheetParameters(
                   paymentIntentClientSecret:
                       paymentIntentData!['client_secret'],
-                  applePay: true,
-                  googlePay: true,
-                  testEnv: true,
                   style: ThemeMode.dark,
-                  merchantCountryCode: 'INR',
                   merchantDisplayName: 'Grocery App'))
           .then((value) {});
       setState(() {});

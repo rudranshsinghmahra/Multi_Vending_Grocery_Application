@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:multi_vending_grocery_app/constants.dart';
 import 'package:multi_vending_grocery_app/providers/location_provider.dart';
-import 'package:multi_vending_grocery_app/screens/home_screen.dart';
-import 'package:multi_vending_grocery_app/screens/landing_screen.dart';
-import 'package:multi_vending_grocery_app/screens/main_screen.dart';
 import 'package:multi_vending_grocery_app/services/services_user.dart';
 
 class AuthProvider extends ChangeNotifier {

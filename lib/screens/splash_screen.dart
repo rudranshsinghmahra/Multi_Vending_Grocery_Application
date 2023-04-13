@@ -61,11 +61,15 @@ class _SplashScreenState extends State<SplashScreen> {
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
-          body: SizedBox(
-            child: Center(
-              child: Hero(
-                tag: 'logo',
-                child: Image.asset('assets/logo.png'),
+          body: Center(
+            child: SizedBox(
+              height: 150,
+              width: 150,
+              child: Center(
+                child: Hero(
+                  tag: 'logo',
+                  child: Image.asset('assets/logo.png'),
+                ),
               ),
             ),
           ),

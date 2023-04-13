@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_vending_grocery_app/providers/store_provider.dart';
 import 'package:multi_vending_grocery_app/screens/product_list_screen.dart';
 import 'package:multi_vending_grocery_app/services/product_services.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 class VendorCategories extends StatefulWidget {
@@ -108,7 +108,8 @@ class _VendorCategoriesState extends State<VendorCategories> {
                               onTap: () {
                                 _services.selectedCategory(document['name']);
                                 _services.selectedCategorySub(null);
-                                pushNewScreenWithRouteSettings(
+                                PersistentNavBarNavigator
+                                    .pushNewScreenWithRouteSettings(
                                   context,
                                   settings: const RouteSettings(
                                       name: ProductListScreen.id),
